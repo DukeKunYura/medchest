@@ -3,6 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     search: "",
     isActiveAdderWindow: false,
+    categories: [
+        { id: "1", name: "Антибиотики" },
+        { id: "2", name: "Анальгетики" },
+        { id: "3", name: "Витамины" },
+        { id: "4", name: "Спазмальгетики" }],
     medications: [
         { id: "353t6356", name: "Фуфломицин", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
         { id: "57457ytr", name: "Фуфломицин", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
@@ -52,12 +57,15 @@ export const masterSlice = createSlice({
         },
         setIsActiveAdderWindow: (state, action) => {
             state.isActiveAdderWindow = action.payload
+        },
+        addCategory: (state, action) => {
+            state.category = [...state.category, action.payload];
         }
 
     }
 });
 
 
-export const { setSearch, addMedication, setIsActiveAdderWindow } = masterSlice.actions
+export const { setSearch, addMedication, setIsActiveAdderWindow, addCategory } = masterSlice.actions
 
 export default masterSlice.reducer

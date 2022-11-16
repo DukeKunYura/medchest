@@ -19,7 +19,7 @@ export default function Medication(props) {
             <View style={styles.quantity}><Text>{item.quantity}</Text></View>
             <View style={styles.buttons}>
                 <View style={styles.edit}>
-                    <MaterialCommunityIcons name="file-document-edit-outline" size={24} color="#fb8ba2" />
+                    <MaterialCommunityIcons name="file-document-edit-outline" size={22} color="grey" />
                 </View>
                 <View style={styles.edit}>
                     <MaterialCommunityIcons name="delete-alert-outline" size={24} color="#fb8ba2" />

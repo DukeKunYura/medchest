@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { setSearch, setIsActiveAdderWindow } from '../redux/masterSlice';
-import { SimpleLineIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 export default function FinderAdder() {
@@ -14,48 +14,69 @@ export default function FinderAdder() {
 
     return (
         <View style={styles.adder}>
-            <View style={styles.input}>
-                <TextInput
-                    value={state.search}
-                    onChangeText={(text) => { dispatch(setSearch(text)) }}
-                    placeholder="Найти/добавить"
-                    cursorColor="grey"
-                    textAlign='center'>
-                </TextInput>
-            </View>
-            <TouchableOpacity
-                onPress={() => { dispatch(setIsActiveAdderWindow(true)) }}
-                activeOpacity={0.5}
-            >
-                <View style={styles.magnifier}>
-                    <SimpleLineIcons name="magnifier-add" size={24} color="black" />
+            <View style={styles.inputField}>
+                <View style={styles.input}>
+                    <TextInput
+                        value={state.search}
+                        onChangeText={(text) => { dispatch(setSearch(text)) }}
+                        placeholder="Найти/добавить"
+                        cursorColor="grey"
+                        textAlign='center'>
+                    </TextInput>
                 </View>
-            </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => { dispatch(setIsActiveAdderWindow(true)) }}
+                    activeOpacity={0.5}>
+                    <View style={styles.magnifier}>
+
+                        <View>
+                            <MaterialCommunityIcons name="flask-empty-plus-outline" size={24} color="white" />
+                        </View>
+
+                    </View>
+                </TouchableOpacity>
+            </View>
+
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     adder: {
-        flexDirection: "row",
         height: 50,
-        backgroundColor: "#AED581",
-        justifyContent: "space-around",
+        backgroundColor: "white",
+        justifyContent: "center",
         alignItems: "center",
         borderColor: "grey",
         borderTopWidth: 1,
-
+    },
+    inputField: {
+        flexDirection: "row",
+        height: 40,
+        width: "70%",
+        backgroundColor: "#F1F8E9",
+        borderColor: "grey",
+        borderWidth: 1,
+        borderRadius: 10,
+        alignItems: "center",
+        justifyContent: "space-between"
     },
     input: {
-        height: 40,
-        width: "80%",
-        backgroundColor: "#F1F8E9",
-        borderColor: "#F1F8E9",
-        borderWidth: 1,
-        borderRadius: 4,
+        marginLeft: 10,
+        width: "70%",
+        alignItems: "center",
         justifyContent: "center"
     },
     magnifier: {
-        marginEnd: 10
+        height: 34,
+        width: 46,
+        marginLeft: 20,
+        backgroundColor: "#AED581",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: "white",
+        marginRight: 3
     }
 })

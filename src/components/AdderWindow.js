@@ -1,9 +1,10 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { View, StyleSheet, TextInput, Button, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native';
 import { setIsActiveAdderWindow, setSearch } from '../redux/masterSlice';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import CategoryChanger from './CategoryChanger';
 
 export default function AdderWindow() {
 
@@ -45,10 +46,11 @@ export default function AdderWindow() {
                             </TextInput>
 
                             <Text>категория</Text>
+                            <CategoryChanger />
                             <TextInput
                                 style={styles.input}
                                 value={props.values.category}
-                                placeholder="категория"
+                                placeholder="новая"
                                 textAlign='center'
                                 onChangeText={props.handleChange("category")}>
                             </TextInput>
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderColor: "#F1F8E9",
         borderWidth: 1,
-        borderRadius: 4
+        borderRadius: 10
     },
     buttonsMenu: {
         flexDirection: "row",
@@ -133,7 +135,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#AED581",
         borderColor: "white",
         borderWidth: 1,
-        borderRadius: 4,
+        borderRadius: 10,
         justifyContent: "center",
         alignItems: "center"
     },
@@ -144,7 +146,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#fb8ba2",
         borderColor: "white",
         borderWidth: 1,
-        borderRadius: 4,
+        borderRadius: 10,
         justifyContent: "center",
         alignItems: "center"
     },
