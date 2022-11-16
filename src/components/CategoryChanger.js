@@ -2,19 +2,21 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Modal, TextInput } from 'react-native';
 import { useSelector } from 'react-redux';
 
-export default function CategoryChanger() {
+export default function CategoryChanger({ handleCategoryChanger, selectedCategory }) {
 
     //const dispatch = useDispatch();
 
     const state = useSelector((state) => state.master);
 
-    const [isActiveChange, setIsActiveChange] = useState(false)
+    const [isActiveChange, setIsActiveChange] = useState(false);
 
-    const handleCategoryChanger = (id) => {
-        console.log(id);
-        setIsActiveChange(false)
+    const handlerRowChooser = (category) => {
 
-    };
+        handleCategoryChanger(category);
+
+        setIsActiveChange(false);
+    }
+
 
     return (
 
@@ -22,7 +24,7 @@ export default function CategoryChanger() {
             style={styles.change}
             activeOpacity={0.5}
             onPress={() => { setIsActiveChange(true) }}>
-            <Text>Разное</Text>
+            <Text>{selectedCategory}</Text>
             <View >
                 <Modal
                     visible={isActiveChange}
@@ -30,10 +32,10 @@ export default function CategoryChanger() {
                     transparent={true}>
                     {state.categories.map(category =>
                         <TouchableOpacity
-                            key={category.id}
+                            key={category}
                             activeOpacity={0.5}
-                            onPress={() => { handleCategoryChanger(category.id) }}>
-                            <View style={styles.change}><Text>{category.name}</Text></View>
+                            onPress={() => { handlerRowChooser(category) }}>
+                            <View style={styles.change}><Text>{category}</Text></View>
                         </TouchableOpacity>
                     )}
                 </Modal>

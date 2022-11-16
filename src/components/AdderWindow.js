@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native';
-import { setIsActiveAdderWindow, setSearch } from '../redux/masterSlice';
+import { setIsActiveAdderWindow, setSearch, addCategory } from '../redux/masterSlice';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import CategoryChanger from './CategoryChanger';
 
@@ -12,12 +12,24 @@ export default function AdderWindow() {
 
     const state = useSelector((state) => state.master);
 
-    const handlerAdder = (values) => {
+    const [selectedCategory, setSelectedCategory] = useState("Разное");
 
-        console.log(values);
+    const handleCategoryChanger = (category) => {
+
+        setSelectedCategory(category);
+    };
+
+    const handlerAdder = (values) => {
 
         dispatch(setIsActiveAdderWindow(false));
         dispatch(setSearch(""));
+
+        let medication = values;
+
+        if (medication.category === "") { medication.category = selectedCategory }
+        else { dispatch(addCategory(medication.category)) };
+
+        console.log(medication)
 
     };
 
@@ -46,7 +58,14 @@ export default function AdderWindow() {
                             </TextInput>
 
                             <Text>категория</Text>
-                            <CategoryChanger />
+                            {props.values.category === "" &&
+                                <CategoryChanger
+                                    handleCategoryChanger={handleCategoryChanger}
+                                    selectedCategory={selectedCategory} />}
+                            {props.values.category !== "" &&
+                                <View style={styles.plug}>
+                                    <Text style={styles.plugText}>------</Text>
+                                </View>}
                             <TextInput
                                 style={styles.input}
                                 value={props.values.category}
@@ -80,15 +99,11 @@ export default function AdderWindow() {
                                     </View>
                                 </TouchableOpacity>
                             </View>
-
                         </View>
                     )}
-
                 </Formik>
             </View>
-
         </View>
-
     );
 }
 
@@ -100,7 +115,7 @@ const styles = StyleSheet.create({
 
     },
     window: {
-        height: "50%",
+        height: 340,
         width: "100%",
         backgroundColor: "#F1F8E9",
         justifyContent: "space-between",
@@ -152,5 +167,18 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         margin: 5
+    },
+    plug: {
+        height: 40,
+        width: "80%",
+        backgroundColor: "white",
+        borderColor: "#F1F8E9",
+        borderWidth: 1,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    plugText: {
+        color: "#c2c2c2"
     }
 })
