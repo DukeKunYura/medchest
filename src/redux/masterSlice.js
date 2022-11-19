@@ -48,7 +48,7 @@ export const masterSlice = createSlice({
         setSearch: (state, action) => {
             state.search = action.payload
         },
-        addMedication: (state) => {
+        addMedication: (state, action) => {
             state.medications = [...state.medications, action.payload];
         },
         setIsActiveAdderWindow: (state, action) => {
