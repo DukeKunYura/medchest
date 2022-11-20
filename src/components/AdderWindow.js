@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native';
 import { setIsActiveAdderWindow, setSearch, addCategory, addMedication } from '../redux/masterSlice';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Fontisto } from '@expo/vector-icons';
 import CategoryChanger from './CategoryChanger';
 
 export default function AdderWindow() {
@@ -14,13 +15,14 @@ export default function AdderWindow() {
     const state = useSelector((state) => state.master);
 
     const [selectedCategory, setSelectedCategory] = useState("Разное");
+    const [isFreezeMedication, setIsFreezeMedication] = useState(false);
 
     const handleCategoryChanger = (category) => {
 
         setSelectedCategory(category);
     };
 
-    const handlerAdder = (values) => {
+    const handleAdder = (values) => {
 
         dispatch(setIsActiveAdderWindow(false));
         dispatch(setSearch(""));
@@ -35,7 +37,8 @@ export default function AdderWindow() {
             name: values.name,
             category: values.category,
             expiration: expiration,
-            quantity: "full"
+            quantity: "full",
+            freeze: isFreezeMedication
         };
 
         if (medication.category === "") { medication.category = selectedCategory }
@@ -45,6 +48,11 @@ export default function AdderWindow() {
 
         dispatch(addMedication(medication))
 
+    };
+
+    const handleSetFreeze = () => {
+        if (isFreezeMedication) { setIsFreezeMedication(false) }
+        else { setIsFreezeMedication(true) }
     };
 
     const handleCancelAdd = () => {
@@ -67,7 +75,7 @@ export default function AdderWindow() {
                 <Formik
                     validationSchema={formValidationSchema}
                     initialValues={{ name: state.search, category: "", day: "", month: "", year: "" }}
-                    onSubmit={(values) => { handlerAdder(values) }}>
+                    onSubmit={(values) => { handleAdder(values) }}>
                     {(props) => (
                         <View style={styles.inputMenu}>
                             <Text>название</Text>
@@ -79,7 +87,14 @@ export default function AdderWindow() {
                                 textAlign='center'
                                 onChangeText={props.handleChange("name")}>
                             </TextInput>
-                            <Text>категория</Text>
+                            <TouchableOpacity
+                                style={styles.categoryTitle}
+                                activeOpacity={0.5}
+                                onPress={handleSetFreeze}>
+                                <Text style={styles.categoryTitleText}>категория</Text>
+                                <Fontisto name="snowflake" size={18}
+                                    color={isFreezeMedication ? "#8DCEF6" : "#c2c2c2"} />
+                            </TouchableOpacity>
                             {props.values.category === "" &&
                                 <CategoryChanger
                                     handleCategoryChanger={handleCategoryChanger}
@@ -132,7 +147,6 @@ export default function AdderWindow() {
                                     onChangeText={props.handleChange("year")}>
                                 </TextInput>
                             </View>
-
                             <View style={styles.buttonsMenu}>
                                 <TouchableOpacity
                                     activeOpacity={0.5}
@@ -190,6 +204,15 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10
     },
+    categoryTitle: {
+        flexDirection: "row",
+        marginLeft: 10,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    categoryTitleText: {
+        marginRight: 10
+    },
     inputDate: {
         height: 40,
         width: "80%",
@@ -204,9 +227,7 @@ const styles = StyleSheet.create({
     inputDateText: {
         marginLeft: 5,
         marginRight: 5
-
-    }
-    ,
+    },
     buttonsMenu: {
         flexDirection: "row",
         width: 300,
