@@ -3,11 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     search: "",
     isActiveAdderWindow: false,
-    categories: ["Антибиотики", "Анальгетики", "Витамины", "Спазмальгетики"],
+    categories: ["Антибиотики", "Анальгетики", "Витамины", "Спазмальгетики", "hvhjg444jh", "jfhj44kjkl",
+        "vgvjhg2kjh", "ghg99jh", "hhj787kjkj", "g4hgh", "hvhjgjh", "jfhjkjkl", "vgvjhgkfrjh", "ghgjggh",
+        "hhjkjkj", "ghgh", "ytjhgj"],
     medications: [
-        { id: "353t6356", name: "Фуфломицин", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
-        { id: "57457ytr", name: "Фуфломицин", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
-        { id: "yt56y46y", name: "Фуфломицин", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
+        { id: "353t6356", name: "Поликор", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
+        { id: "57457ytr", name: "Полатор", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
+        { id: "yt56y46y", name: "Пропанор", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
         { id: "45yy4y54", name: "Фуфломицин", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
         { id: "54y45y54", name: "Фуфломицин", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
         { id: "gtg5y554", name: "Фуфломицин", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
@@ -51,6 +53,9 @@ export const masterSlice = createSlice({
         addMedication: (state, action) => {
             state.medications = [action.payload, ...state.medications];
         },
+        deleteMedication: (state, action) => {
+            state.medications = state.medications.filter(item => item.id !== action.payload)
+        },
         setIsActiveAdderWindow: (state, action) => {
             state.isActiveAdderWindow = action.payload
         },
@@ -62,6 +67,6 @@ export const masterSlice = createSlice({
 });
 
 
-export const { setSearch, addMedication, setIsActiveAdderWindow, addCategory } = masterSlice.actions
+export const { setSearch, addMedication, setIsActiveAdderWindow, addCategory, deleteMedication } = masterSlice.actions
 
 export default masterSlice.reducer

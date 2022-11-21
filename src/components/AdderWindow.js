@@ -27,8 +27,6 @@ export default function AdderWindow() {
         dispatch(setIsActiveAdderWindow(false));
         dispatch(setSearch(""));
 
-
-
         let expiration = (values.day.length > 1 ? values.day : "0" + values.day)
             + "." + (values.month.length > 1 ? values.month : "0" + values.month) + "." + values.year;
 
@@ -44,9 +42,9 @@ export default function AdderWindow() {
         if (medication.category === "") { medication.category = selectedCategory }
         else { dispatch(addCategory(medication.category)) };
 
-        console.log(medication)
+        console.log(medication);
 
-        dispatch(addMedication(medication))
+        dispatch(addMedication(medication));
 
     };
 
@@ -56,10 +54,8 @@ export default function AdderWindow() {
     };
 
     const handleCancelAdd = () => {
-
         dispatch(setIsActiveAdderWindow(false));
         dispatch(setSearch(""));
-
     };
 
     const formValidationSchema = Yup.object().shape({
@@ -78,7 +74,7 @@ export default function AdderWindow() {
                     onSubmit={(values) => { handleAdder(values) }}>
                     {(props) => (
                         <View style={styles.inputMenu}>
-                            <Text>название</Text>
+                            <Text style={styles.inputDateText}>название</Text>
                             <TextInput
                                 style={styles.input}
                                 value={props.values.name}
@@ -112,7 +108,7 @@ export default function AdderWindow() {
                                 textAlign='center'
                                 onChangeText={props.handleChange("category")}>
                             </TextInput>
-                            <Text>годен до</Text>
+                            <Text style={styles.inputDateText}>годен до</Text>
                             <View style={styles.inputDate}>
                                 <TextInput
                                     style={styles.inputDateText}
@@ -179,30 +175,34 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "flex-end",
-
     },
     window: {
         height: 340,
         width: "100%",
-        backgroundColor: "#F1F8E9",
+        backgroundColor: "#d5edb9",
         justifyContent: "space-between",
         borderColor: "grey",
         borderTopWidth: 1,
-
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
     },
     inputMenu: {
         flex: 1,
         alignItems: "center",
         justifyContent: "space-around"
-
     },
     input: {
         height: 40,
-        width: "80%",
-        backgroundColor: "white",
-        borderColor: "#F1F8E9",
+        backgroundColor: "#F1F8E9",
         borderWidth: 1,
-        borderRadius: 10
+        borderRadius: 10,
+        width: "70%",
+        borderColor: "grey",
+        borderWidth: 1,
+        alignItems: "center",
+        fontSize: 16
     },
     categoryTitle: {
         flexDirection: "row",
@@ -211,22 +211,24 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     categoryTitleText: {
-        marginRight: 10
+        marginRight: 10,
+        fontSize: 16
     },
     inputDate: {
-        height: 40,
-        width: "80%",
-        backgroundColor: "white",
-        borderColor: "#F1F8E9",
-        borderWidth: 1,
-        borderRadius: 10,
         justifyContent: "center",
         alignItems: "center",
-        flexDirection: "row"
+        flexDirection: "row",
+        height: 40,
+        backgroundColor: "#F1F8E9",
+        borderRadius: 10,
+        width: "70%",
+        borderColor: "grey",
+        borderWidth: 1
     },
     inputDateText: {
         marginLeft: 5,
-        marginRight: 5
+        marginRight: 5,
+        fontSize: 16
     },
     buttonsMenu: {
         flexDirection: "row",
@@ -273,15 +275,16 @@ const styles = StyleSheet.create({
     },
     plug: {
         height: 40,
-        width: "80%",
-        backgroundColor: "white",
-        borderColor: "#F1F8E9",
+        width: "70%",
+        backgroundColor: "#F1F8E9",
+        borderColor: "grey",
         borderWidth: 1,
         borderRadius: 10,
         justifyContent: "center",
         alignItems: "center",
     },
     plugText: {
-        color: "#c2c2c2"
+        color: "#c2c2c2",
+        fontSize: 16
     }
 })

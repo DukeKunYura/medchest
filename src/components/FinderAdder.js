@@ -11,7 +11,6 @@ export default function FinderAdder() {
 
     const state = useSelector((state) => state.master);
 
-
     return (
         <View style={styles.adder}>
             <View style={styles.inputField}>
@@ -28,15 +27,15 @@ export default function FinderAdder() {
                     onPress={() => { dispatch(setIsActiveAdderWindow(true)) }}
                     activeOpacity={0.5}>
                     <View style={styles.magnifier}>
-
                         <View>
-                            <MaterialCommunityIcons name="flask-empty-plus-outline" size={24} color="white" />
+                            <MaterialCommunityIcons
+                                name="flask-empty-plus-outline"
+                                size={24}
+                                color="white" />
                         </View>
-
                     </View>
                 </TouchableOpacity>
             </View>
-
         </View>
     );
 }

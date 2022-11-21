@@ -5,7 +5,7 @@ import AdderWindow from '../components/AdderWindow';
 import FinderAdder from '../components/FinderAdder';
 import Medication from '../components/Medication';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
 
     const state = useSelector((state) => state.master);
 
@@ -13,7 +13,7 @@ export default function HomeScreen() {
 
     useEffect(() => {
         if (state.search !== "") {
-            let newArr = medications.filter(item =>
+            let newArr = state.medications.filter(item =>
                 item.name.toLowerCase().includes(state.search.toLowerCase()))
             setMedications(newArr);
         } else { setMedications(state.medications) }
@@ -25,7 +25,7 @@ export default function HomeScreen() {
                 <FlatList
                     keyExtractor={item => item.id}
                     data={medications}
-                    renderItem={({ item }) => (<Medication item={item} />)}></FlatList>
+                    renderItem={({ item }) => (<Medication navigation={navigation} item={item} />)}></FlatList>
             </View>
             <FinderAdder />
             <Modal
@@ -34,7 +34,6 @@ export default function HomeScreen() {
                 transparent={true}>
                 <AdderWindow />
             </Modal>
-
         </View>
     );
 }

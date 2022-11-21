@@ -1,20 +1,26 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
-
+import { useDispatch } from 'react-redux';
+import { deleteMedication } from '../redux/masterSlice';
 
 export default function Medication(props) {
 
-    const { item } = props;
+    const { item, navigation } = props;
+
+    const dispatch = useDispatch();
 
     return (
         <View style={[styles.container, styles.boxShadow]}>
-            <View style={styles.title}>
+            <TouchableOpacity
+                style={styles.title}
+                activeOpacity={0.5}
+                onPress={() => { navigation.navigate('Item', { itemId: item.id }) }}>
                 <Text style={styles.category}>{item.category}</Text>
                 <Text style={styles.name}>{item.name}</Text>
                 <Text style={styles.expiration}>{item.expiration}</Text>
-            </View>
+            </TouchableOpacity>
             <Fontisto name="snowflake" size={10} color="#8DCEF6" />
             <View style={styles.quantity}><Text>{item.quantity}</Text></View>
             <View style={styles.buttons}>
@@ -22,10 +28,13 @@ export default function Medication(props) {
                     <MaterialCommunityIcons name="file-document-edit-outline" size={22} color="grey" />
                 </View>
                 <View style={styles.edit}>
-                    <MaterialCommunityIcons name="delete-alert-outline" size={24} color="#fb8ba2" />
+                    <TouchableOpacity
+                        activeOpacity={0.5}
+                        onPress={() => { dispatch(deleteMedication(item.id)) }}>
+                        <MaterialCommunityIcons name="delete-alert-outline" size={24} color="#fb8ba2" />
+                    </TouchableOpacity>
+
                 </View>
-
-
             </View>
         </View>
     );
@@ -39,7 +48,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         margin: 5,
         borderRadius: 6
-
     },
     title: {
         alignItems: "flex-start",

@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { Feather } from '@expo/vector-icons';
 
 export default function InfoBar() {
     return (
@@ -8,28 +7,21 @@ export default function InfoBar() {
             <TouchableOpacity activeOpacity={0.5} style={styles.category}>
                 <Text style={styles.infotext}>Категория</Text>
                 <View style={styles.title}>
-                    <Feather name="chevrons-down" size={24} color="#fb8ba2" />
                     <Text style={styles.name}>Все препараты</Text>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.5} style={styles.sort}>
                 <Text style={styles.infotext}>Сотировка</Text>
                 <View style={styles.title}>
-                    <Feather name="chevrons-down" size={24} color="#fb8ba2" />
                     <Text style={styles.name}>Новые</Text>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.5} style={styles.sort}>
                 <Text style={styles.infotext}>Срок</Text>
                 <View style={styles.title}>
-                    <Feather name="chevrons-down" size={24} color="#fb8ba2" />
                     <Text style={styles.name}>Истек 0</Text>
                 </View>
             </TouchableOpacity>
-
-
-
-
         </View>
     );
 }
@@ -51,13 +43,14 @@ const styles = StyleSheet.create({
     },
     sort: {
         width: "30%",
-        alignItems: "center"
+        alignItems: "center",
+        borderLeftWidth: 1,
+        borderColor: "#e1f0d1"
     },
     title: {
         flexDirection: "row",
         alignItems: "flex-start",
         justifyContent: "flex-start"
-
     },
     infotext: {
         fontSize: 11,
