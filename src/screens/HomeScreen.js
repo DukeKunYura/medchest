@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, Modal, StyleSheet, View } from 'react-native';
+import Header from '../components/Header';
 import { useSelector } from 'react-redux';
 import AdderWindow from '../components/AdderWindow';
 import FinderAdder from '../components/FinderAdder';
 import Medication from '../components/Medication';
+import InformationBar from '../components/InformationBar';
 
 export default function HomeScreen({ navigation }) {
 
@@ -21,6 +23,9 @@ export default function HomeScreen({ navigation }) {
 
     return (
         <View style={styles.home}>
+            <Header>
+                <InformationBar />
+            </Header>
             <View style={styles.page}>
                 <FlatList
                     keyExtractor={item => item.id}

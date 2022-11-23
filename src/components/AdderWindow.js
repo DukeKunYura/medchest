@@ -36,7 +36,8 @@ export default function AdderWindow() {
             category: values.category,
             expiration: expiration,
             quantity: "full",
-            freeze: isFreezeMedication
+            freeze: isFreezeMedication,
+            note: ""
         };
 
         if (medication.category === "") { medication.category = selectedCategory }

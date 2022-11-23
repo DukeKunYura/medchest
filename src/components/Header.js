@@ -1,20 +1,21 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import InformationBar from './InformationBar';
 
-export default function Header() {
+export default function Header(props) {
     return (
-        <View style={styles.header}>
-            <Text style={styles.text}>Моя аптечка</Text>
-            <InformationBar />
+        <>
+            <View style={styles.header}>
+                <Text style={styles.text}>Моя аптечка</Text>
+            </View>
+            {props.children}
+        </>
 
-        </View>
     )
 };
 
 const styles = StyleSheet.create({
     header: {
-        height: 150,
+        height: 100,
         backgroundColor: "#9CCC65",
         justifyContent: "flex-end",
         alignItems: "center"
