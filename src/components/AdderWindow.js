@@ -15,7 +15,7 @@ export default function AdderWindow() {
     const state = useSelector((state) => state.master);
 
     const [selectedCategory, setSelectedCategory] = useState("Разное");
-    const [isFreezeMedication, setIsFreezeMedication] = useState(false);
+    const [isFreezeMedication, setIsFreezeMedication] = useState("аптечка");
 
     const handleCategoryChanger = (category) => {
 
@@ -50,8 +50,8 @@ export default function AdderWindow() {
     };
 
     const handleSetFreeze = () => {
-        if (isFreezeMedication) { setIsFreezeMedication(false) }
-        else { setIsFreezeMedication(true) }
+        if (isFreezeMedication === "холод") { setIsFreezeMedication("аптечка") }
+        else { setIsFreezeMedication("холод") }
     };
 
     const handleCancelAdd = () => {
@@ -75,7 +75,7 @@ export default function AdderWindow() {
                     onSubmit={(values) => { handleAdder(values) }}>
                     {(props) => (
                         <View style={styles.inputMenu}>
-                            <Text style={styles.inputDateText}>название</Text>
+                            <Text style={styles.adderTitleText}>Добавить</Text>
                             <TextInput
                                 style={styles.input}
                                 value={props.values.name}
@@ -90,7 +90,7 @@ export default function AdderWindow() {
                                 onPress={handleSetFreeze}>
                                 <Text style={styles.categoryTitleText}>категория</Text>
                                 <Fontisto name="snowflake" size={18}
-                                    color={isFreezeMedication ? "#8DCEF6" : "#c2c2c2"} />
+                                    color={isFreezeMedication === "холод" ? "#8DCEF6" : "#c2c2c2"} />
                             </TouchableOpacity>
                             {props.values.category === "" &&
                                 <CategoryChanger
@@ -194,6 +194,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-around"
     },
+    adderTitleText: {
+        marginTop: 10,
+        fontSize: 18
+    },
     input: {
         height: 40,
         backgroundColor: "#F1F8E9",
@@ -201,7 +205,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         width: "70%",
         borderColor: "grey",
-        borderWidth: 1,
         alignItems: "center",
         fontSize: 16
     },

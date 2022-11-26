@@ -29,6 +29,9 @@ export default function CategoryChanger({ handleCategoryChanger, selectedCategor
                     transparent={true}>
                     <View style={styles.changer}>
                         <View style={[styles.window, styles.boxShadow]}>
+                            <View style={styles.header}>
+                                <Text style={styles.headerText}>категории:</Text>
+                            </View>
                             <ScrollView>
                                 <View style={styles.list}>
                                     {state.categories.map(category =>
@@ -67,6 +70,15 @@ const styles = StyleSheet.create({
         marginBottom: 200,
         paddingTop: 10,
         paddingBottom: 10
+    },
+    header: {
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    headerText: {
+        fontSize: 18,
+        marginBottom: 5
     },
     list: {
         justifyContent: "center",

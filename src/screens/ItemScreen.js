@@ -20,13 +20,34 @@ export default function ItemScreen({ route }) {
     return (
         <View>
             <Header />
-            <View style={styles.title}>
-                <Text style={styles.titleText}>{item.name}</Text>
-            </View>
             <View style={[styles.container, styles.boxShadow]}>
-                <DataField data={item.name} />
-                <DataField data={item.category} />
-                <DataField data={item.expiration} />
+                <View style={styles.title}>
+                    <DataField data={item.name} size={20} />
+                </View>
+                <View style={styles.fieldName}>
+                    <Text style={styles.fieldText}>категория:</Text>
+                    <DataField data={item.category} size={16} />
+                </View>
+                <View style={styles.fieldName}>
+                    <Text style={styles.fieldText}>годен до:</Text>
+                    <DataField data={item.expiration} size={16} />
+                </View>
+                <View style={styles.fieldName}>
+                    <Text style={styles.fieldText}>количество:</Text>
+                    <DataField data={item.quantity} size={16} />
+                </View>
+                <View style={styles.fieldName}>
+                    <Text style={styles.fieldText}>хранение:</Text>
+                    <DataField data={item.freeze} size={16} />
+                </View>
+                <View style={styles.fieldName}>
+                    <Text style={styles.fieldText}>примечание:</Text>
+                    <View style={styles.note}>
+                        <DataField data={item.note} size={16} />
+                    </View>
+
+                </View>
+
             </View>
         </View>
     );
@@ -40,16 +61,30 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderColor: "grey",
-        borderBottomWidth: 1,
-    },
-    titleText: {
-        fontSize: 20,
-        color: "grey"
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        marginBottom: 20
     },
     container: {
         margin: 10,
         borderRadius: 10,
-        padding: 20
+        borderColor: "white",
+        padding: 2
+    },
+    fieldName: {
+        marginLeft: 20
+    },
+    fieldText: {
+        color: "grey"
+    },
+    note: {
+        margin: 10,
+        marginLeft: -10,
+        backgroundColor: "#e8e8e8",
+        borderWidth: 0.5,
+        borderRadius: 10,
+        borderColor: "grey",
+        minHeight: 80
     }
 })
 
