@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
-import DataField from '../components/DataField';
+import Editor from '../components/Editor';
 import Header from '../components/Header';
 
 export default function ItemScreen({ route }) {
@@ -11,44 +11,68 @@ export default function ItemScreen({ route }) {
     const state = useSelector((state) => state.master);
 
     const [item, setItem] = useState({});
+    const [isEditing, setIsEditing] = useState(false);
+
+    const handleSetEditing = () => {
+        if (isEditing) { setIsEditing(false) } else { setIsEditing(true) };
+    };
 
     useEffect(() => {
-        let item = state.medications.filter(item => item.id === itemId)[0];
+        let [item] = state.medications.filter(item => item.id === itemId);
         setItem(item)
     }, [state.medications]);
 
     return (
         <View>
             <Header />
-            <View style={[styles.container, styles.boxShadow]}>
+            {!isEditing && <View style={[styles.container, styles.boxShadow]}>
                 <View style={styles.title}>
-                    <DataField data={item.name} size={20} />
+                    <Text style={styles.titleText}>{item.name}</Text>
                 </View>
                 <View style={styles.fieldName}>
                     <Text style={styles.fieldText}>категория:</Text>
-                    <DataField data={item.category} size={16} />
+                    <View style={styles.data}>
+                        <Text style={styles.dataText}>{item.category}</Text>
+                    </View>
                 </View>
                 <View style={styles.fieldName}>
                     <Text style={styles.fieldText}>годен до:</Text>
-                    <DataField data={item.expiration} size={16} />
+                    <View style={styles.data}>
+                        <Text style={styles.dataText}>{item.expiration}</Text>
+                    </View>
                 </View>
                 <View style={styles.fieldName}>
                     <Text style={styles.fieldText}>количество:</Text>
-                    <DataField data={item.quantity} size={16} />
+                    <View style={styles.data}>
+                        <Text style={styles.dataText}>{item.quantity}</Text>
+                    </View>
                 </View>
                 <View style={styles.fieldName}>
                     <Text style={styles.fieldText}>хранение:</Text>
-                    <DataField data={item.freeze} size={16} />
+                    <View style={styles.data}>
+                        <Text style={styles.dataText}>{item.freeze}</Text>
+                    </View>
                 </View>
                 <View style={styles.fieldName}>
                     <Text style={styles.fieldText}>примечание:</Text>
                     <View style={styles.note}>
-                        <DataField data={item.note} size={16} />
+                        <Text style={styles.dataText}>{item.note}</Text>
                     </View>
 
                 </View>
+                <View>
+                    <TouchableOpacity
+                        activeOpacity={0.5}
+                        onPress={handleSetEditing}>
+                        <View>
+                            <Text>Изменить</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
 
-            </View>
+            </View>}
+            {isEditing && <Editor item={item} />}
+
         </View>
     );
 }
@@ -65,6 +89,10 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 10,
         marginBottom: 20
     },
+    titleText: {
+        fontSize: 20,
+        color: "#383838"
+    },
     container: {
         margin: 10,
         borderRadius: 10,
@@ -76,6 +104,13 @@ const styles = StyleSheet.create({
     },
     fieldText: {
         color: "grey"
+    },
+    data: {
+        marginTop: 5,
+        marginBottom: 5
+    },
+    dataText: {
+        fontSize: 16
     },
     note: {
         margin: 10,
