@@ -25,8 +25,9 @@ export default function CategoryChanger({ handleCategoryChanger, selectedCategor
             <View >
                 <Modal
                     visible={isActiveChange}
-                    animationType="slide"
+                    animationType="fade"
                     transparent={true}>
+                    <View style={styles.changerBack}></View>
                     <View style={styles.changer}>
                         <View style={[styles.window, styles.boxShadow]}>
                             <View style={styles.header}>
@@ -54,10 +55,17 @@ export default function CategoryChanger({ handleCategoryChanger, selectedCategor
 }
 
 const styles = StyleSheet.create({
+    changerBack: {
+        flex: 1,
+        backgroundColor: "black",
+        opacity: .4
+    },
     changer: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        position: "absolute",
+        width: "100%"
     },
     window: {
         height: 300,

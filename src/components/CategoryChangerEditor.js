@@ -9,35 +9,46 @@ export default function CategoryChangerEditor({ handleCategoryChanger }) {
     const handlerRowChooser = (category) => { handleCategoryChanger(category) };
 
     return (
-        <View style={styles.changer}>
-            <View style={[styles.window, styles.boxShadow]}>
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>категории:</Text>
-                </View>
-                <ScrollView>
-                    <View style={styles.list}>
-                        {state.categories.map(category =>
-                            <TouchableOpacity
-                                style={styles.change}
-                                key={category}
-                                activeOpacity={0.5}
-                                onPress={() => { handlerRowChooser(category) }}>
-                                <View ><Text style={styles.text}>{category}</Text></View>
-                            </TouchableOpacity>
-                        )}
+        <>
+            <View style={styles.changerBack}></View>
+            <View style={styles.changer}>
+                <View style={[styles.window, styles.boxShadow]}>
+                    <View style={styles.header}>
+                        <Text style={styles.headerText}>категории:</Text>
                     </View>
-                </ScrollView>
+                    <ScrollView>
+                        <View style={styles.list}>
+                            {state.categories.map(category =>
+                                <TouchableOpacity
+                                    style={styles.change}
+                                    key={category}
+                                    activeOpacity={0.5}
+                                    onPress={() => { handlerRowChooser(category) }}>
+                                    <View ><Text style={styles.text}>{category}</Text></View>
+                                </TouchableOpacity>
+                            )}
+                        </View>
+                    </ScrollView>
+                </View>
             </View>
-        </View>
+        </>
+
     );
 }
 
 
 const styles = StyleSheet.create({
-    changer: {
+    changerBack: {
         flex: 1,
+        backgroundColor: "black",
+        opacity: .4
+    },
+    changer: {
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        blurRadius: 10,
+        position: "absolute",
+        width: "100%"
     },
     window: {
         height: 300,

@@ -8,41 +8,52 @@ export default function FreezeChangeEditor({ handleFreezeChanger }) {
 
 
     return (
-        <View style={styles.changer}>
-            <View style={[styles.window, styles.boxShadow]}>
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>хранение:</Text>
-                </View>
-                <View>
-                    <View style={styles.list}>
-                        <TouchableOpacity
-                            style={styles.change}
-                            activeOpacity={0.5}
-                            onPress={() => { handlerRowChooser("аптечка") }}>
-                            <View ><Text style={styles.text}>аптечка</Text></View>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.change}
-                            activeOpacity={0.5}
-                            onPress={() => { handlerRowChooser("холод") }}>
-                            <View ><Text style={styles.text}>холод</Text></View>
-                        </TouchableOpacity>
+        <>
+            <View style={styles.changerBack}></View>
+            <View style={styles.changer}>
+                <View style={[styles.window, styles.boxShadow]}>
+                    <View style={styles.header}>
+                        <Text style={styles.headerText}>хранение:</Text>
+                    </View>
+                    <View>
+                        <View style={styles.list}>
+                            <TouchableOpacity
+                                style={styles.change}
+                                activeOpacity={0.5}
+                                onPress={() => { handlerRowChooser("аптечка") }}>
+                                <View ><Text style={styles.text}>аптечка</Text></View>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.change}
+                                activeOpacity={0.5}
+                                onPress={() => { handlerRowChooser("холод") }}>
+                                <View ><Text style={styles.text}>холод</Text></View>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </View>
-        </View>
+        </>
+
     );
 }
 
 
 const styles = StyleSheet.create({
+    changerBack: {
+        flex: 1,
+        backgroundColor: "black",
+        opacity: .4
+    },
     changer: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        position: "absolute",
+        width: "100%"
     },
     window: {
-        height: 300,
+        height: 160,
         width: "80%",
         backgroundColor: "#d5edb9",
         borderWidth: 1,

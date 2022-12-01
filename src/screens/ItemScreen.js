@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { useSelector } from 'react-redux';
 import Editor from '../components/Editor';
 import Header from '../components/Header';
@@ -23,7 +23,8 @@ export default function ItemScreen({ route }) {
     }, [state.medications]);
 
     return (
-        <View>
+        <KeyboardAvoidingView
+            behavior="position">
             <Header />
             {!isEditing && <View style={[styles.container, styles.boxShadow]}>
                 <View style={styles.title}>
@@ -73,7 +74,7 @@ export default function ItemScreen({ route }) {
             </View>}
             {isEditing && <Editor item={item} />}
 
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -116,10 +117,8 @@ const styles = StyleSheet.create({
         margin: 10,
         marginLeft: -10,
         backgroundColor: "#e8e8e8",
-        borderWidth: 0.5,
         borderRadius: 10,
-        borderColor: "grey",
-        minHeight: 80
+        minHeight: 40
     }
 })
 

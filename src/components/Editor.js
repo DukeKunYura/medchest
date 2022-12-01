@@ -47,13 +47,13 @@ export default function Editor({ item }) {
             </View>
             <Modal
                 visible={isActiveChangeCategory}
-                animationType="slide"
+                animationType="fade"
                 transparent={true}>
                 <CategoryChangerEditor handleCategoryChanger={handleCategoryChanger} />
             </Modal>
             <Modal
                 visible={isActiveChangeFreeze}
-                animationType="slide"
+                animationType="fade"
                 transparent={true}>
                 <FreezeChangerEditor handleFreezeChanger={handleFreezeChanger} />
             </Modal>
@@ -85,11 +85,13 @@ export default function Editor({ item }) {
                         </View>
                         <View style={styles.fieldName}>
                             <Text style={styles.fieldText}>категория:</Text>
-                            <TouchableOpacity style={styles.data}>
+                            <TouchableOpacity
+                                style={styles.data}
+                                onPressIn={handleFocusCategory}>
                                 <TextInput
                                     style={isColorHighlight === "category" ? styles.dataNameTextColor : styles.dataNameText}
                                     value={selectedCategory}
-                                    onFocus={handleFocusCategory}
+                                    editable={false}
                                 ></TextInput>
                             </TouchableOpacity>
                         </View>
@@ -146,24 +148,31 @@ export default function Editor({ item }) {
                                     autoFocus={true}
                                     onChangeText={props.handleChange("quantity")}
                                     onFocus={() => { colorHighlight("quantity") }}
+                                    onPressIn={() => { colorHighlight("quantity") }}
                                 ></TextInput>
                             </View>
                         </View>
                         <View style={styles.fieldName}>
                             <Text style={styles.fieldText}>хранение:</Text>
-                            <TouchableOpacity style={styles.data}>
+                            <TouchableOpacity
+                                style={styles.data}
+                                onPressIn={handleFocusFreeze}>
                                 <TextInput
-                                    style={isColorHighlight === "freeze" ? styles.dataNameTextColor : styles.dataNameText}
+                                    style={isColorHighlight === "freeze" ? styles.dateFreezeTextColor : styles.dataNameText}
                                     value={selectedFreeze}
-                                    onFocus={handleFocusFreeze}
+                                    editable={false}
                                 ></TextInput>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.fieldName}>
                             <Text style={styles.fieldText}>примечание:</Text>
-                            <View style={styles.note}>
+                            <TextInput
+                                multiline={true}
+                                numberOfLines={4}
+                                textAlignVertical={"top"}
+                                style={styles.note}>
                                 <Text style={styles.dataText}>{item.note}</Text>
-                            </View>
+                            </TextInput>
                         </View>
                     </View>
                 )}
@@ -234,6 +243,14 @@ const styles = StyleSheet.create({
         width: 25,
         borderRadius: 10,
         textAlign: 'center'
+    },
+    dateFreezeTextColor: {
+        fontSize: 17,
+        backgroundColor: "#C5E1A5",
+        width: 70,
+        borderRadius: 10,
+        alignItems: "center",
+        alignContent: "center"
     },
     inputDate: {
         alignItems: "center",
