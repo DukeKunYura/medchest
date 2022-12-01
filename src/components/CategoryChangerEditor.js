@@ -1,57 +1,37 @@
-import React, { useState } from 'react';
-import { View, ScrollView, StyleSheet, TouchableOpacity, Text, Modal } from 'react-native';
+import React from 'react';
+import { View, ScrollView, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 
-export default function CategoryChanger({ handleCategoryChanger, selectedCategory }) {
+export default function CategoryChangerEditor({ handleCategoryChanger }) {
 
     const state = useSelector((state) => state.master);
 
-    const [isActiveChange, setIsActiveChange] = useState(false);
-
-    const handlerRowChooser = (category) => {
-
-        handleCategoryChanger(category);
-
-        setIsActiveChange(false);
-    };
+    const handlerRowChooser = (category) => { handleCategoryChanger(category) };
 
     return (
-
-        <TouchableOpacity
-            style={styles.changeBut}
-            activeOpacity={0.5}
-            onPress={() => { setIsActiveChange(true) }}>
-            <Text style={styles.text}>{selectedCategory}</Text>
-            <View >
-                <Modal
-                    visible={isActiveChange}
-                    animationType="slide"
-                    transparent={true}>
-                    <View style={styles.changer}>
-                        <View style={[styles.window, styles.boxShadow]}>
-                            <View style={styles.header}>
-                                <Text style={styles.headerText}>категории:</Text>
-                            </View>
-                            <ScrollView>
-                                <View style={styles.list}>
-                                    {state.categories.map(category =>
-                                        <TouchableOpacity
-                                            style={styles.change}
-                                            key={category}
-                                            activeOpacity={0.5}
-                                            onPress={() => { handlerRowChooser(category) }}>
-                                            <View ><Text style={styles.text}>{category}</Text></View>
-                                        </TouchableOpacity>
-                                    )}
-                                </View>
-                            </ScrollView>
-                        </View>
+        <View style={styles.changer}>
+            <View style={[styles.window, styles.boxShadow]}>
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>категории:</Text>
+                </View>
+                <ScrollView>
+                    <View style={styles.list}>
+                        {state.categories.map(category =>
+                            <TouchableOpacity
+                                style={styles.change}
+                                key={category}
+                                activeOpacity={0.5}
+                                onPress={() => { handlerRowChooser(category) }}>
+                                <View ><Text style={styles.text}>{category}</Text></View>
+                            </TouchableOpacity>
+                        )}
                     </View>
-                </Modal>
+                </ScrollView>
             </View>
-        </TouchableOpacity>
+        </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     changer: {
@@ -137,4 +117,5 @@ const generateBoxShadowStyle = (
 };
 
 generateBoxShadowStyle(-2, 4, '#171717', 0.2, 3, 4, '#171717');
+
 

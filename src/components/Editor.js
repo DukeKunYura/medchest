@@ -1,18 +1,43 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Modal } from 'react-native';
+import CategoryChangerEditor from './CategoryChangerEditor';
+import FreezeChangerEditor from './FreezeChangeEditor';
 
 export default function Editor({ item }) {
 
     const handleEditMedication = () => { };
 
     const [isColorHighlight, setIsColorHighlight] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState(item.category);
+    const [selectedFreeze, setSelectedFreeze] = useState(item.freeze);
+    const [isActiveChangeCategory, setIsActiveChangeCategory] = useState(false);
+    const [isActiveChangeFreeze, setIsActiveChangeFreeze] = useState(false);
 
     const formValidationSchema = Yup.object().shape({ quantity: Yup.number().required() });
 
     const colorHighlight = (field) => { setIsColorHighlight(field) };
 
+    const handleCategoryChanger = (category) => {
+        setSelectedCategory(category);
+        setIsActiveChangeCategory(false);
+    };
+
+    const handleFreezeChanger = (freeze) => {
+        setSelectedFreeze(freeze);
+        setIsActiveChangeFreeze(false);
+    };
+
+    const handleFocusCategory = () => {
+        colorHighlight("category");
+        setIsActiveChangeCategory(true);
+    };
+
+    const handleFocusFreeze = () => {
+        colorHighlight("freeze");
+        setIsActiveChangeFreeze(true);
+    };
 
 
     return (
@@ -20,14 +45,28 @@ export default function Editor({ item }) {
             <View style={styles.title}>
                 <Text style={styles.titleText}>{item.name}</Text>
             </View>
+            <Modal
+                visible={isActiveChangeCategory}
+                animationType="slide"
+                transparent={true}>
+                <CategoryChangerEditor handleCategoryChanger={handleCategoryChanger} />
+            </Modal>
+            <Modal
+                visible={isActiveChangeFreeze}
+                animationType="slide"
+                transparent={true}>
+                <FreezeChangerEditor handleFreezeChanger={handleFreezeChanger} />
+            </Modal>
             <Formik
                 validationSchema={formValidationSchema}
                 initialValues={{
                     name: item.name,
+                    category: selectedCategory,
                     quantity: item.quantity,
                     day: item.expiration.substring(0, 2),
                     month: item.expiration.substring(3, 5),
-                    year: item.expiration.substring(6, 10)
+                    year: item.expiration.substring(6, 10),
+                    freeze: selectedFreeze
                 }}
                 onSubmit={(values) => { handleEditMedication(values) }}>
                 {(props) => (
@@ -46,9 +85,13 @@ export default function Editor({ item }) {
                         </View>
                         <View style={styles.fieldName}>
                             <Text style={styles.fieldText}>категория:</Text>
-                            <View style={styles.data}>
-                                <Text style={styles.dataText}>{item.category}</Text>
-                            </View>
+                            <TouchableOpacity style={styles.data}>
+                                <TextInput
+                                    style={isColorHighlight === "category" ? styles.dataNameTextColor : styles.dataNameText}
+                                    value={selectedCategory}
+                                    onFocus={handleFocusCategory}
+                                ></TextInput>
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.fieldName}>
                             <Text style={styles.fieldText}>годен до:</Text>
@@ -108,9 +151,13 @@ export default function Editor({ item }) {
                         </View>
                         <View style={styles.fieldName}>
                             <Text style={styles.fieldText}>хранение:</Text>
-                            <View style={styles.data}>
-                                <Text style={styles.dataText}>{item.freeze}</Text>
-                            </View>
+                            <TouchableOpacity style={styles.data}>
+                                <TextInput
+                                    style={isColorHighlight === "freeze" ? styles.dataNameTextColor : styles.dataNameText}
+                                    value={selectedFreeze}
+                                    onFocus={handleFocusFreeze}
+                                ></TextInput>
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.fieldName}>
                             <Text style={styles.fieldText}>примечание:</Text>

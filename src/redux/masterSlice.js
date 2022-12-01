@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     search: "",
     isActiveAdderWindow: false,
-    categories: ["Антибиотики", "Анальгетики", "Витамины", "Спазмальгетики", "hvhjg444jh", "jfhj44kjkl",
+    categories: ["антибиотики", "анальгетики", "витамины", "спазмальгетики", "hvhjg444jh", "jfhj44kjkl",
         "vgvjhg2kjh", "ghg99jh", "hhj787kjkj", "g4hgh", "hvhjgjh", "jfhjkjkl", "vgvjhgkfrjh", "ghgjggh",
         "hhjkjkj", "ghgh", "ytjhgj"],
     medications: [
