@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import Editor from '../components/Editor';
 import Header from '../components/Header';
 
-export default function ItemScreen({ route }) {
+export default function ItemScreen({ route, navigation }) {
 
     const { itemId } = route.params;
 
@@ -61,18 +62,26 @@ export default function ItemScreen({ route }) {
                     </View>
 
                 </View>
-                <View>
+                <View style={styles.buttonsMenu}>
                     <TouchableOpacity
                         activeOpacity={0.5}
                         onPress={handleSetEditing}>
-                        <View>
-                            <Text>Изменить</Text>
+                        <View style={styles.buttonAdd}>
+                            <MaterialCommunityIcons name="circle-edit-outline" size={24} color="white" />
+                            <Text style={styles.buttonText}>Изменить</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        activeOpacity={0.5}
+                        onPress={() => navigation.goBack()}>
+                        <View style={styles.buttonCancel}>
+                            <MaterialCommunityIcons name="cancel" size={25} color="white" />
+                            <Text style={styles.buttonText}>Назад</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
-
             </View>}
-            {isEditing && <Editor item={item} />}
+            {isEditing && <Editor item={item} navigation={navigation} />}
 
         </KeyboardAvoidingView>
     );
@@ -119,7 +128,39 @@ const styles = StyleSheet.create({
         backgroundColor: "#e8e8e8",
         borderRadius: 10,
         minHeight: 40
-    }
+    },
+    buttonsMenu: {
+        flexDirection: "row",
+        width: "100%",
+        justifyContent: "center",
+        marginBottom: 10
+    },
+    buttonAdd: {
+        flexDirection: "row",
+        height: 40,
+        width: 120,
+        marginRight: 20,
+        backgroundColor: "#AED581",
+        borderColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    buttonCancel: {
+        flexDirection: "row",
+        height: 40,
+        width: 100,
+        backgroundColor: "#fb8ba2",
+        borderColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    buttonText: {
+        margin: 5
+    },
 })
 
 const generateBoxShadowStyle = (

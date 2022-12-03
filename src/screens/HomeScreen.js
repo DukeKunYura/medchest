@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, Modal, StyleSheet, View } from 'react-native';
+import { FlatList, Modal, View, StyleSheet } from 'react-native';
 import Header from '../components/Header';
 import { useSelector } from 'react-redux';
 import AdderWindow from '../components/AdderWindow';
@@ -46,7 +46,7 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
     home: {
         flex: 1,
-        backgroundColor: "white"
+        backgroundColor: "white",
     },
     page: {
         flex: 1

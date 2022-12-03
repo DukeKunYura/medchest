@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Modal } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CategoryChangerEditor from './CategoryChangerEditor';
 import FreezeChangerEditor from './FreezeChangeEditor';
 
-export default function Editor({ item }) {
+export default function Editor({ item, navigation }) {
 
     const handleEditMedication = () => { };
 
@@ -37,6 +38,10 @@ export default function Editor({ item }) {
     const handleFocusFreeze = () => {
         colorHighlight("freeze");
         setIsActiveChangeFreeze(true);
+    };
+
+    const handleCancelEdit = () => {
+        navigation.goBack();
     };
 
 
@@ -174,6 +179,23 @@ export default function Editor({ item }) {
                                 <Text style={styles.dataText}>{item.note}</Text>
                             </TextInput>
                         </View>
+                        <View style={styles.buttonsMenu}>
+                            <TouchableOpacity
+                                activeOpacity={0.5}>
+                                <View style={styles.buttonAdd}>
+                                    <MaterialCommunityIcons name="circle-edit-outline" size={24} color="white" />
+                                    <Text style={styles.buttonText}>Сохранить</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                activeOpacity={0.5}
+                                onPress={handleCancelEdit}>
+                                <View style={styles.buttonCancel}>
+                                    <MaterialCommunityIcons name="cancel" size={25} color="white" />
+                                    <Text style={styles.buttonText}>Отмена</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 )}
             </Formik>
@@ -267,7 +289,39 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: "grey",
         minHeight: 80
-    }
+    },
+    buttonsMenu: {
+        flexDirection: "row",
+        width: "100%",
+        justifyContent: "center",
+        marginBottom: 10
+    },
+    buttonAdd: {
+        flexDirection: "row",
+        height: 40,
+        width: 120,
+        marginRight: 20,
+        backgroundColor: "#AED581",
+        borderColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    buttonCancel: {
+        flexDirection: "row",
+        height: 40,
+        width: 100,
+        backgroundColor: "#fb8ba2",
+        borderColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    buttonText: {
+        margin: 5
+    },
 })
 
 const generateBoxShadowStyle = (
