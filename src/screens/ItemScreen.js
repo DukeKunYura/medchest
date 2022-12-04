@@ -9,7 +9,7 @@ import ConfirmationWindow from '../components/ConfirmationWindow';
 
 export default function ItemScreen({ route, navigation }) {
 
-    const { itemId } = route.params;
+    const { itemId, editing } = route.params;
 
     const state = useSelector((state) => state.master);
 
@@ -31,7 +31,8 @@ export default function ItemScreen({ route, navigation }) {
 
     useEffect(() => {
         let [item] = state.medications.filter(item => item.id === itemId);
-        setItem(item)
+        setItem(item);
+        if (editing) { setIsEditing(true) };
     }, [state.medications]);
 
     return (
@@ -40,7 +41,7 @@ export default function ItemScreen({ route, navigation }) {
             <Header />
             <Modal
                 visible={isActiveConfirmationWindow}
-                animationType="fade"
+                animationType="none"
                 transparent={true}>
                 <ConfirmationWindow
                     text={"Удалить: "}
@@ -51,7 +52,7 @@ export default function ItemScreen({ route, navigation }) {
             </Modal>
             {!isEditing && <View style={[styles.container, styles.boxShadow]}>
                 <View style={styles.title}>
-                    <Text style={styles.titleText}>{item.name}</Text>
+                    <Text style={styles.titleText}>{item.name}{editing}</Text>
                 </View>
                 <View style={styles.fieldName}>
                     <Text style={styles.fieldText}>категория:</Text>

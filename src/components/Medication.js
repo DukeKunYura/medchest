@@ -23,7 +23,7 @@ export default function Medication(props) {
         <View style={[styles.container, styles.boxShadow]}>
             <Modal
                 visible={isActiveConfirmationWindow}
-                animationType="fade"
+                animationType="none"
                 transparent={true}>
                 <ConfirmationWindow
                     text={"Удалить: "}
@@ -35,7 +35,7 @@ export default function Medication(props) {
             <TouchableOpacity
                 style={styles.title}
                 activeOpacity={0.5}
-                onPress={() => { navigation.navigate('Item', { itemId: item.id }) }}>
+                onPress={() => { navigation.navigate('Item', { itemId: item.id, editing: false }) }}>
                 <Text style={styles.category}>{item.category}</Text>
                 <Text style={styles.name}>{item.name}</Text>
                 <Text style={styles.expiration}>{item.expiration}</Text>
@@ -43,9 +43,14 @@ export default function Medication(props) {
             <Fontisto name="snowflake" size={10} color="#8DCEF6" />
             <View style={styles.quantity}><Text>{item.quantity}</Text></View>
             <View style={styles.buttons}>
-                <View style={styles.edit}>
-                    <MaterialCommunityIcons name="file-document-edit-outline" size={22} color="grey" />
-                </View>
+                <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => { navigation.navigate('Item', { itemId: item.id, editing: true }) }}>
+                    <View style={styles.edit}>
+                        <MaterialCommunityIcons name="file-document-edit-outline" size={22} color="grey" />
+                    </View>
+                </TouchableOpacity>
+
                 <View style={styles.edit}>
                     <TouchableOpacity
                         activeOpacity={0.5}
