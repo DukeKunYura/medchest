@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Modal } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteMedication } from '../redux/masterSlice';
 import Editor from '../components/Editor';
 import Header from '../components/Header';
+import ConfirmationWindow from '../components/ConfirmationWindow';
 
 export default function ItemScreen({ route, navigation }) {
 
@@ -11,11 +13,20 @@ export default function ItemScreen({ route, navigation }) {
 
     const state = useSelector((state) => state.master);
 
+    const dispatch = useDispatch();
+
     const [item, setItem] = useState({});
     const [isEditing, setIsEditing] = useState(false);
+    const [isActiveConfirmationWindow, setIsActiveConfirmationWindow] = useState(false);
 
     const handleSetEditing = () => {
         if (isEditing) { setIsEditing(false) } else { setIsEditing(true) };
+    };
+
+    const handleDeleteMedication = (id) => {
+        setIsActiveConfirmationWindow(false);
+        navigation.goBack();
+        dispatch(deleteMedication(id));
     };
 
     useEffect(() => {
@@ -27,6 +38,17 @@ export default function ItemScreen({ route, navigation }) {
         <KeyboardAvoidingView
             behavior="position">
             <Header />
+            <Modal
+                visible={isActiveConfirmationWindow}
+                animationType="fade"
+                transparent={true}>
+                <ConfirmationWindow
+                    text={"Удалить: "}
+                    handleDeleteMedication={handleDeleteMedication}
+                    setIsActiveConfirmationWindow={setIsActiveConfirmationWindow}
+                    id={item.id}
+                    name={item.name} />
+            </Modal>
             {!isEditing && <View style={[styles.container, styles.boxShadow]}>
                 <View style={styles.title}>
                     <Text style={styles.titleText}>{item.name}</Text>
@@ -69,6 +91,14 @@ export default function ItemScreen({ route, navigation }) {
                         <View style={styles.buttonAdd}>
                             <MaterialCommunityIcons name="circle-edit-outline" size={24} color="white" />
                             <Text style={styles.buttonText}>Изменить</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        activeOpacity={0.5}
+                        onPress={() => setIsActiveConfirmationWindow(true)}>
+                        <View style={styles.buttonDelete}>
+                            <MaterialCommunityIcons name="delete-circle-outline" size={24} color="white" />
+                            <Text style={styles.buttonText}>Удалить</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -139,13 +169,25 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         height: 40,
         width: 120,
-        marginRight: 20,
+        marginRight: 10,
         backgroundColor: "#AED581",
         borderColor: "white",
         borderWidth: 1,
         borderRadius: 10,
         justifyContent: "center",
         alignItems: "center"
+    },
+    buttonDelete: {
+        flexDirection: "row",
+        height: 40,
+        width: 110,
+        backgroundColor: "#fb8ba2",
+        borderColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center",
+        marginRight: 10,
     },
     buttonCancel: {
         flexDirection: "row",

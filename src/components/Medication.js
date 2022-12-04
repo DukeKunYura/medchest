@@ -1,9 +1,10 @@
-import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { deleteMedication } from '../redux/masterSlice';
+import ConfirmationWindow from '../components/ConfirmationWindow';
 
 export default function Medication(props) {
 
@@ -11,8 +12,26 @@ export default function Medication(props) {
 
     const dispatch = useDispatch();
 
+    const [isActiveConfirmationWindow, setIsActiveConfirmationWindow] = useState(false);
+
+    const handleDeleteMedication = (id) => {
+        setIsActiveConfirmationWindow(false);
+        dispatch(deleteMedication(id));
+    };
+
     return (
         <View style={[styles.container, styles.boxShadow]}>
+            <Modal
+                visible={isActiveConfirmationWindow}
+                animationType="fade"
+                transparent={true}>
+                <ConfirmationWindow
+                    text={"Удалить: "}
+                    handleDeleteMedication={handleDeleteMedication}
+                    setIsActiveConfirmationWindow={setIsActiveConfirmationWindow}
+                    id={item.id}
+                    name={item.name} />
+            </Modal>
             <TouchableOpacity
                 style={styles.title}
                 activeOpacity={0.5}
@@ -30,7 +49,7 @@ export default function Medication(props) {
                 <View style={styles.edit}>
                     <TouchableOpacity
                         activeOpacity={0.5}
-                        onPress={() => { dispatch(deleteMedication(item.id)) }}>
+                        onPress={() => { setIsActiveConfirmationWindow(true) }}>
                         <MaterialCommunityIcons name="delete-alert-outline" size={24} color="#fb8ba2" />
                     </TouchableOpacity>
 
