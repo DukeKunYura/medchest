@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TextInput, Text, TouchableOpacity, Modal } from 'react-native';
 import { setIsActiveAdderWindow, setSearch, addCategory, addMedication } from '../redux/masterSlice';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import CategoryChanger from './CategoryChanger';
+import AlertWindow from './AlertWindow';
 
 export default function AdderWindow() {
 
@@ -15,14 +16,14 @@ export default function AdderWindow() {
     const state = useSelector((state) => state.master);
 
     const [selectedCategory, setSelectedCategory] = useState("Разное");
+    const [isRepeatAlert, setIsRepeatAlert] = useState(false);
     const [isFreezeMedication, setIsFreezeMedication] = useState("аптечка");
 
-    const handleCategoryChanger = (category) => {
-
-        setSelectedCategory(category);
-    };
+    const handleCategoryChanger = (category) => { setSelectedCategory(category) };
 
     const handleAdder = (values) => {
+
+        if (state.medications.find(item => item.name === values.name)) { setIsRepeatAlert(true); return };
 
         dispatch(setIsActiveAdderWindow(false));
         dispatch(setSearch(""));
@@ -41,7 +42,9 @@ export default function AdderWindow() {
         };
 
         if (medication.category === "") { medication.category = selectedCategory }
-        else { dispatch(addCategory(medication.category)) };
+        else {
+            if (!state.categories.includes(values.category)) { dispatch(addCategory(medication.category)) }
+        };
 
         console.log(medication);
 
@@ -68,6 +71,14 @@ export default function AdderWindow() {
 
     return (
         <View style={styles.adder}>
+            <Modal
+                visible={isRepeatAlert}
+                animationType="none"
+                transparent={true}>
+                <AlertWindow
+                    text={"Препарат есть в списке!"}
+                    setIsRepeatAlert={setIsRepeatAlert} />
+            </Modal>
             <View style={styles.window}>
                 <Formik
                     validationSchema={formValidationSchema}

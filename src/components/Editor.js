@@ -46,7 +46,8 @@ export default function Editor({ item, navigation }) {
 
 
     return (
-        <View style={[styles.container, styles.boxShadow]}>
+        <View
+            style={[styles.container, styles.boxShadow]}>
             <View style={styles.title}>
                 <Text style={styles.titleText}>{item.name}</Text>
             </View>
@@ -174,6 +175,7 @@ export default function Editor({ item, navigation }) {
                             <TextInput
                                 multiline={true}
                                 numberOfLines={4}
+                                maxHeight={20}
                                 textAlignVertical={"top"}
                                 style={styles.note}>
                                 <Text style={styles.dataText}>{item.note}</Text>
@@ -226,10 +228,10 @@ const styles = StyleSheet.create({
         color: "#383838"
     },
     container: {
+        position: "relative",
         margin: 10,
         borderRadius: 10,
-        borderColor: "white",
-        padding: 2
+        backgroundColor: "white"
     },
     fieldName: {
         marginLeft: 20

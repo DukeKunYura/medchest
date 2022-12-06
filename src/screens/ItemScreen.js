@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Modal, ScrollView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteMedication } from '../redux/masterSlice';
@@ -36,85 +36,88 @@ export default function ItemScreen({ route, navigation }) {
     }, [state.medications]);
 
     return (
-        <KeyboardAvoidingView
-            behavior="position">
+        <>
             <Header />
-            <Modal
-                visible={isActiveConfirmationWindow}
-                animationType="none"
-                transparent={true}>
-                <ConfirmationWindow
-                    text={"Удалить: "}
-                    handleDeleteMedication={handleDeleteMedication}
-                    setIsActiveConfirmationWindow={setIsActiveConfirmationWindow}
-                    id={item.id}
-                    name={item.name} />
-            </Modal>
-            {!isEditing && <View style={[styles.container, styles.boxShadow]}>
-                <View style={styles.title}>
-                    <Text style={styles.titleText}>{item.name}{editing}</Text>
-                </View>
-                <View style={styles.fieldName}>
-                    <Text style={styles.fieldText}>категория:</Text>
-                    <View style={styles.data}>
-                        <Text style={styles.dataText}>{item.category}</Text>
+            <KeyboardAvoidingView
+                behavior="position">
+                <Modal
+                    visible={isActiveConfirmationWindow}
+                    animationType="none"
+                    transparent={true}>
+                    <ConfirmationWindow
+                        text={"Удалить: "}
+                        handleDeleteMedication={handleDeleteMedication}
+                        setIsActiveConfirmationWindow={setIsActiveConfirmationWindow}
+                        id={item.id}
+                        name={item.name} />
+                </Modal>
+                {!isEditing && <View style={[styles.container, styles.boxShadow]}>
+                    <View style={styles.title}>
+                        <Text style={styles.titleText}>{item.name}{editing}</Text>
                     </View>
-                </View>
-                <View style={styles.fieldName}>
-                    <Text style={styles.fieldText}>годен до:</Text>
-                    <View style={styles.data}>
-                        <Text style={styles.dataText}>{item.expiration}</Text>
+                    <View style={styles.fieldName}>
+                        <Text style={styles.fieldText}>категория:</Text>
+                        <View style={styles.data}>
+                            <Text style={styles.dataText}>{item.category}</Text>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.fieldName}>
-                    <Text style={styles.fieldText}>количество:</Text>
-                    <View style={styles.data}>
-                        <Text style={styles.dataText}>{item.quantity}</Text>
+                    <View style={styles.fieldName}>
+                        <Text style={styles.fieldText}>годен до:</Text>
+                        <View style={styles.data}>
+                            <Text style={styles.dataText}>{item.expiration}</Text>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.fieldName}>
-                    <Text style={styles.fieldText}>хранение:</Text>
-                    <View style={styles.data}>
-                        <Text style={styles.dataText}>{item.freeze}</Text>
+                    <View style={styles.fieldName}>
+                        <Text style={styles.fieldText}>количество:</Text>
+                        <View style={styles.data}>
+                            <Text style={styles.dataText}>{item.quantity}</Text>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.fieldName}>
-                    <Text style={styles.fieldText}>примечание:</Text>
-                    <View style={styles.note}>
-                        <Text style={styles.dataText}>{item.note}</Text>
+                    <View style={styles.fieldName}>
+                        <Text style={styles.fieldText}>хранение:</Text>
+                        <View style={styles.data}>
+                            <Text style={styles.dataText}>{item.freeze}</Text>
+                        </View>
                     </View>
+                    <View style={styles.fieldName}>
+                        <Text style={styles.fieldText}>примечание:</Text>
+                        <ScrollView style={styles.note}>
+                            <Text style={styles.dataText}>{item.note}</Text>
+                        </ScrollView>
 
-                </View>
-                <View style={styles.buttonsMenu}>
-                    <TouchableOpacity
-                        activeOpacity={0.5}
-                        onPress={handleSetEditing}>
-                        <View style={styles.buttonAdd}>
-                            <MaterialCommunityIcons name="circle-edit-outline" size={24} color="white" />
-                            <Text style={styles.buttonText}>Изменить</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        activeOpacity={0.5}
-                        onPress={() => setIsActiveConfirmationWindow(true)}>
-                        <View style={styles.buttonDelete}>
-                            <MaterialCommunityIcons name="delete-circle-outline" size={24} color="white" />
-                            <Text style={styles.buttonText}>Удалить</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        activeOpacity={0.5}
-                        onPress={() => navigation.goBack()}>
-                        <View style={styles.buttonCancel}>
-                            <MaterialCommunityIcons name="cancel" size={25} color="white" />
-                            <Text style={styles.buttonText}>Назад</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-            </View>}
-            {isEditing && <Editor item={item} navigation={navigation} />}
+                    </View>
+                    <View style={styles.buttonsMenu}>
+                        <TouchableOpacity
+                            activeOpacity={0.5}
+                            onPress={handleSetEditing}>
+                            <View style={styles.buttonAdd}>
+                                <MaterialCommunityIcons name="circle-edit-outline" size={24} color="white" />
+                                <Text style={styles.buttonText}>Изменить</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            activeOpacity={0.5}
+                            onPress={() => setIsActiveConfirmationWindow(true)}>
+                            <View style={styles.buttonDelete}>
+                                <MaterialCommunityIcons name="delete-circle-outline" size={24} color="white" />
+                                <Text style={styles.buttonText}>Удалить</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            activeOpacity={0.5}
+                            onPress={() => navigation.goBack()}>
+                            <View style={styles.buttonCancel}>
+                                <MaterialCommunityIcons name="cancel" size={25} color="white" />
+                                <Text style={styles.buttonText}>Назад</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </View>}
+                {isEditing && <Editor item={item} navigation={navigation} />}
 
-        </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
+        </>
+
     );
 }
 
@@ -128,17 +131,17 @@ const styles = StyleSheet.create({
         borderColor: "grey",
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        marginBottom: 20
+        marginBottom: 20,
     },
     titleText: {
         fontSize: 20,
         color: "#383838"
     },
     container: {
+        position: "relative",
         margin: 10,
         borderRadius: 10,
-        borderColor: "white",
-        padding: 2
+        backgroundColor: "white"
     },
     fieldName: {
         marginLeft: 20
@@ -156,9 +159,10 @@ const styles = StyleSheet.create({
     note: {
         margin: 10,
         marginLeft: -10,
-        backgroundColor: "#e8e8e8",
+        backgroundColor: "#f2f2f2",
         borderRadius: 10,
-        minHeight: 40
+        minHeight: 40,
+        maxHeight: 100
     },
     buttonsMenu: {
         flexDirection: "row",
@@ -230,4 +234,4 @@ const generateBoxShadowStyle = (
     }
 };
 
-generateBoxShadowStyle(-2, 4, '#171717', 0.2, 3, 2, '#171717');
+generateBoxShadowStyle(-2, 4, '#171717', 0.2, -3, 1, '#171717');

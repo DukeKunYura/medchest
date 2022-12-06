@@ -15,11 +15,13 @@ export default function Header(props) {
 
 const styles = StyleSheet.create({
     header: {
+        position: "relative",
         width: "100%",
         height: 100,
         backgroundColor: "#9CCC65",
         justifyContent: "flex-end",
-        alignItems: "center"
+        alignItems: "center",
+        zIndex: 1
     },
     text: {
         color: "#F1F8E9",

@@ -7,7 +7,10 @@ const initialState = {
         "vgvjhg2kjh", "ghg99jh", "hhj787kjkj", "g4hgh", "hvhjgjh", "jfhjkjkl", "vgvjhgkfrjh", "ghgjggh",
         "hhjkjkj", "ghgh", "ytjhgj"],
     medications: [
-        { id: "353t6356", name: "Поликор", category: "антибиотик", expiration: "16,09,23", quantity: "87", note: "jnbfbgfkjb tgrtjrt grtgrt tgrg jnbfbgfkjb tgrtjrt grtgrt tgrgjnbfbgfkjb tgrtjrt grtgrt tgrgrtt tr r rr  t rtrhgtr tr." },
+        {
+            id: "353t6356", name: "Поликор", category: "антибиотик", expiration: "16,09,23", quantity: "87",
+            note: "jnbfbgfkjb tgrtjrt gtgrtjrt grtgrt tgrg jnbfbgfkjb tgrtjrt grtgrt tgrgjnbfbgfkjbtgrtjrt grtgrt tgrg jnbfbgfkjb tgrtjrt grtgrt tgrgjnbfbgfkjbrtgrt tgrg jnbfbgfkjb tgrtjrt grtgrt tgrgjnbfbgfkjb tgrtjrt grtgrt tgrgrtt tr r rr  t rtrhg tgrtjrt grtgrt tgrgjnbfbgfkjb tgrtjrt grtgrt tgrgrtt tr r rr  t rtrhg tgrtjrt grtgrt tgrgjnbfbgfkjb tgrtjrt grtgrt tgrgrtt tr r rr  t rtrhgtr tr."
+        },
         { id: "57457ytr", name: "Полатор", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
         { id: "yt56y46y", name: "Пропанор", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
         { id: "45yy4y54", name: "Фуфломицин", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
