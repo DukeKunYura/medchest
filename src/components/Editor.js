@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { editMedication } from '../redux/masterSlice';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Modal } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CategoryChangerEditor from './CategoryChangerEditor';
@@ -8,15 +10,13 @@ import FreezeChangerEditor from './FreezeChangeEditor';
 
 export default function Editor({ item, navigation }) {
 
-    const handleEditMedication = () => { };
-
     const [isColorHighlight, setIsColorHighlight] = useState("");
     const [selectedCategory, setSelectedCategory] = useState(item.category);
     const [selectedFreeze, setSelectedFreeze] = useState(item.freeze);
     const [isActiveChangeCategory, setIsActiveChangeCategory] = useState(false);
     const [isActiveChangeFreeze, setIsActiveChangeFreeze] = useState(false);
 
-    const formValidationSchema = Yup.object().shape({ quantity: Yup.number().required() });
+    const dispatch = useDispatch();
 
     const colorHighlight = (field) => { setIsColorHighlight(field) };
 
@@ -43,6 +43,26 @@ export default function Editor({ item, navigation }) {
     const handleCancelEdit = () => {
         navigation.goBack();
     };
+
+    const handleEditMedication = (id, values) => {
+
+        let expiration = (values.day.length > 1 ? values.day : "0" + values.day)
+            + "." + (values.month.length > 1 ? values.month : "0" + values.month) + "." + values.year;
+
+        values.expiration = expiration;
+        values.freeze = selectedFreeze;
+        const data = { id, values };
+        navigation.goBack();
+        dispatch(editMedication(data))
+    };
+
+    const formValidationSchema = Yup.object().shape({
+        name: Yup.string().required(),
+        quantity: Yup.string().required(),
+        day: Yup.number().min(1).max(31).required(),
+        month: Yup.number().min(1).max(12).required(),
+        year: Yup.number().min(2022).max(2050).required()
+    });
 
 
     return (
@@ -72,9 +92,10 @@ export default function Editor({ item, navigation }) {
                     day: item.expiration.substring(0, 2),
                     month: item.expiration.substring(3, 5),
                     year: item.expiration.substring(6, 10),
-                    freeze: selectedFreeze
+                    freeze: selectedFreeze,
+                    note: item.note
                 }}
-                onSubmit={(values) => { handleEditMedication(values) }}>
+                onSubmit={(values) => { handleEditMedication(item.id, values) }}>
                 {(props) => (
                     <View>
                         <View style={styles.fieldName}>
@@ -150,7 +171,7 @@ export default function Editor({ item, navigation }) {
                                     style={isColorHighlight === "quantity" ? styles.dataQuantityTextColor : styles.dataText}
                                     value={props.values.quantity}
                                     keyboardType='numeric'
-                                    maxLength={4}
+                                    maxLength={5}
                                     autoFocus={true}
                                     onChangeText={props.handleChange("quantity")}
                                     onFocus={() => { colorHighlight("quantity") }}
@@ -177,14 +198,18 @@ export default function Editor({ item, navigation }) {
                                 numberOfLines={4}
                                 maxHeight={20}
                                 textAlignVertical={"top"}
+                                value={props.values.note}
+                                onChangeText={props.handleChange("note")}
                                 style={styles.note}>
-                                <Text style={styles.dataText}>{item.note}</Text>
                             </TextInput>
                         </View>
                         <View style={styles.buttonsMenu}>
                             <TouchableOpacity
-                                activeOpacity={0.5}>
-                                <View style={styles.buttonAdd}>
+                                activeOpacity={0.5}
+                                onPress={props.handleSubmit}>
+                                <View style={
+                                    props.errors.name || props.errors.day || props.errors.month || props.errors.year || props.errors.quantity
+                                        ? styles.buttonSaveOff : styles.buttonSave}>
                                     <MaterialCommunityIcons name="circle-edit-outline" size={24} color="white" />
                                     <Text style={styles.buttonText}>Сохранить</Text>
                                 </View>
@@ -257,7 +282,7 @@ const styles = StyleSheet.create({
     dataQuantityTextColor: {
         fontSize: 16,
         backgroundColor: "#C5E1A5",
-        width: 40,
+        width: 50,
         borderRadius: 10,
         textAlign: 'center'
     },
@@ -298,12 +323,24 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginBottom: 10
     },
-    buttonAdd: {
+    buttonSave: {
         flexDirection: "row",
         height: 40,
         width: 120,
         marginRight: 20,
         backgroundColor: "#AED581",
+        borderColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    buttonSaveOff: {
+        flexDirection: "row",
+        height: 40,
+        width: 120,
+        marginRight: 20,
+        backgroundColor: "#e0e0e0",
         borderColor: "white",
         borderWidth: 1,
         borderRadius: 10,

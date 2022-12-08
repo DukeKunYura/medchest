@@ -36,7 +36,7 @@ export default function AdderWindow() {
             name: values.name,
             category: values.category,
             expiration: expiration,
-            quantity: "full",
+            quantity: "~",
             freeze: isFreezeMedication,
             note: ""
         };

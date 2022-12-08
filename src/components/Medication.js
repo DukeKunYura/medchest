@@ -40,7 +40,9 @@ export default function Medication(props) {
                 <Text style={styles.name}>{item.name}</Text>
                 <Text style={styles.expiration}>{item.expiration}</Text>
             </TouchableOpacity>
-            <Fontisto name="snowflake" size={10} color="#8DCEF6" />
+            <View style={styles.snowflake}>
+                {item.freeze === "холод" && <Fontisto name="snowflake" size={10} color="#8DCEF6" />}
+            </View>
             <View style={styles.quantity}><Text>{item.quantity}</Text></View>
             <View style={styles.buttons}>
                 <TouchableOpacity
@@ -88,6 +90,10 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: "grey",
         margin: 3
+    },
+    snowflake: {
+        marginRight: "auto",
+        marginLeft: 5
     },
     quantity: {
         marginRight: 10

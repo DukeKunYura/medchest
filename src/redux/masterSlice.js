@@ -56,6 +56,13 @@ export const masterSlice = createSlice({
         addMedication: (state, action) => {
             state.medications = [action.payload, ...state.medications];
         },
+        editMedication: (state, action) => {
+            state.medications = state.medications.filter(item => item.id !== action.payload.id)
+            let medication = action.payload.values;
+            medication.id = action.payload.id;
+            state.medications = [medication, ...state.medications];
+            console.log(medication);
+        },
         deleteMedication: (state, action) => {
             state.medications = state.medications.filter(item => item.id !== action.payload)
         },
@@ -70,6 +77,12 @@ export const masterSlice = createSlice({
 });
 
 
-export const { setSearch, addMedication, setIsActiveAdderWindow, addCategory, deleteMedication } = masterSlice.actions
+export const {
+    setSearch,
+    addMedication,
+    editMedication,
+    setIsActiveAdderWindow,
+    addCategory,
+    deleteMedication } = masterSlice.actions
 
 export default masterSlice.reducer
