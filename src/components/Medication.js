@@ -1,23 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { deleteMedication } from '../redux/masterSlice';
+import moment from 'moment';
+import localization from 'moment/locale/ru';
 import ConfirmationWindow from '../components/ConfirmationWindow';
 
 export default function Medication(props) {
 
     const { item, navigation } = props;
 
+    moment().locale("ru", localization).format('LLL');
+
     const dispatch = useDispatch();
 
+    const [remainingPeriod, setRemainingPeriod] = useState("long")
+
     const [isActiveConfirmationWindow, setIsActiveConfirmationWindow] = useState(false);
+
+    const endDate = moment(item.expiration, "DD,MM,YYYY").fromNow();
 
     const handleDeleteMedication = (id) => {
         setIsActiveConfirmationWindow(false);
         dispatch(deleteMedication(id));
     };
+
+    useEffect(() => {
+        let now = Date.now().toString();
+        let endDate = moment(item.expiration, "DD,MM,YYYY").format("x");
+        let remainingPeriod = Number(endDate) - Number(now);
+
+        if (remainingPeriod < 1) { setRemainingPeriod("passed") }
+        else if (remainingPeriod < 2928359954) { setRemainingPeriod("month") };
+
+        //setRemainingPeriod(remainingPeriod)
+
+    }, [props]);
 
     return (
         <View style={[styles.container, styles.boxShadow]}>
@@ -38,7 +58,9 @@ export default function Medication(props) {
                 onPress={() => { navigation.navigate('Item', { itemId: item.id, editing: false }) }}>
                 <Text style={styles.category}>{item.category}</Text>
                 <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.expiration}>{item.expiration}</Text>
+                {remainingPeriod === "passed" && <Text style={styles.expirationPassed}>{endDate}</Text>}
+                {remainingPeriod === "month" && <Text style={styles.expirationMonth}>{endDate}</Text>}
+                {remainingPeriod !== "passed" && remainingPeriod !== "month" && <Text style={styles.expirationLong}>{endDate}</Text>}
             </TouchableOpacity>
             <View style={styles.snowflake}>
                 {item.freeze === "холод" && <Fontisto name="snowflake" size={10} color="#8DCEF6" />}
@@ -86,9 +108,19 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 16
     },
-    expiration: {
+    expirationLong: {
         fontSize: 12,
         color: "grey",
+        margin: 3
+    },
+    expirationMonth: {
+        fontSize: 12,
+        color: "orange",
+        margin: 3
+    },
+    expirationPassed: {
+        fontSize: 12,
+        color: "red",
         margin: 3
     },
     snowflake: {

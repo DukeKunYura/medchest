@@ -11,8 +11,8 @@ const initialState = {
             id: "353t6356", name: "Поликор", category: "антибиотик", expiration: "16,09,23", quantity: "87",
             note: "jnbfbgfkjb tgrtjrt gtgrtjrt grtgrt tgrg jnbfbgfkjb tgrtjrt grtgrt tgrgjnbfbgfkjbtgrtjrt grtgrt tgrg jnbfbgfkjb tgrtjrt grtgrt tgrgjnbfbgfkjbrtgrt tgrg jnbfbgfkjb tgrtjrt grtgrt tgrgjnbfbgfkjb tgrtjrt grtgrt tgrgrtt tr r rr  t rtrhg tgrtjrt grtgrt tgrgjnbfbgfkjb tgrtjrt grtgrt tgrgrtt tr r rr  t rtrhg tgrtjrt grtgrt tgrgjnbfbgfkjb tgrtjrt grtgrt tgrgrtt tr r rr  t rtrhgtr tr."
         },
-        { id: "57457ytr", name: "Полатор", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
-        { id: "yt56y46y", name: "Пропанор", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
+        { id: "57457ytr", name: "Полатор", category: "антибиотик", expiration: "16,09,2023", quantity: "87" },
+        { id: "yt56y46y", name: "Пропанор", category: "антибиотик", expiration: "16,09,2023", quantity: "87" },
         { id: "45yy4y54", name: "Фуфломицин", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
         { id: "54y45y54", name: "Фуфломицин", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
         { id: "gtg5y554", name: "Фуфломицин", category: "антибиотик", expiration: "16,09,23", quantity: "87" },
@@ -49,7 +49,6 @@ export const masterSlice = createSlice({
     name: 'master',
     initialState,
     reducers: {
-
         setSearch: (state, action) => {
             state.search = action.payload
         },
@@ -72,7 +71,6 @@ export const masterSlice = createSlice({
         addCategory: (state, action) => {
             state.categories = [...state.categories, action.payload]
         }
-
     }
 });
 
@@ -83,6 +81,6 @@ export const {
     editMedication,
     setIsActiveAdderWindow,
     addCategory,
-    deleteMedication } = masterSlice.actions
+    deleteMedication } = masterSlice.actions;
 
 export default masterSlice.reducer
