@@ -315,7 +315,8 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderRadius: 10,
         borderColor: "grey",
-        minHeight: 80
+        minHeight: 80,
+        paddingHorizontal: 5
     },
     buttonsMenu: {
         flexDirection: "row",

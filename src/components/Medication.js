@@ -33,6 +33,7 @@ export default function Medication(props) {
         let remainingPeriod = Number(endDate) - Number(now);
 
         if (remainingPeriod < 1) { setRemainingPeriod("passed") }
+        else if (remainingPeriod < 607172262) { setRemainingPeriod("week") }
         else if (remainingPeriod < 2928359954) { setRemainingPeriod("month") };
 
         //setRemainingPeriod(remainingPeriod)
@@ -60,7 +61,9 @@ export default function Medication(props) {
                 <Text style={styles.name}>{item.name}</Text>
                 {remainingPeriod === "passed" && <Text style={styles.expirationPassed}>{endDate}</Text>}
                 {remainingPeriod === "month" && <Text style={styles.expirationMonth}>{endDate}</Text>}
-                {remainingPeriod !== "passed" && remainingPeriod !== "month" && <Text style={styles.expirationLong}>{endDate}</Text>}
+                {remainingPeriod === "week" && <Text style={styles.expirationWeek}>{endDate}</Text>}
+                {remainingPeriod !== "passed" && remainingPeriod !== "month" && remainingPeriod !== "week" &&
+                    <Text style={styles.expirationLong}>{endDate}</Text>}
             </TouchableOpacity>
             <View style={styles.snowflake}>
                 {item.freeze === "холод" && <Fontisto name="snowflake" size={10} color="#8DCEF6" />}
@@ -110,7 +113,7 @@ const styles = StyleSheet.create({
     },
     expirationLong: {
         fontSize: 12,
-        color: "grey",
+        color: "#AED581",
         margin: 3
     },
     expirationMonth: {
@@ -118,9 +121,14 @@ const styles = StyleSheet.create({
         color: "orange",
         margin: 3
     },
+    expirationWeek: {
+        fontSize: 12,
+        color: "#ff738f",
+        margin: 3
+    },
     expirationPassed: {
         fontSize: 12,
-        color: "red",
+        color: "#a11d37",
         margin: 3
     },
     snowflake: {

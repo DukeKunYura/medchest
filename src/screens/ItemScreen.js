@@ -162,7 +162,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#f2f2f2",
         borderRadius: 10,
         minHeight: 40,
-        maxHeight: 100
+        maxHeight: 100,
+        paddingHorizontal: 5
     },
     buttonsMenu: {
         flexDirection: "row",
