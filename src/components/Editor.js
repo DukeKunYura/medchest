@@ -49,9 +49,15 @@ export default function Editor({ item, navigation }) {
         let expiration = (values.day.length > 1 ? values.day : "0" + values.day)
             + "." + (values.month.length > 1 ? values.month : "0" + values.month) + "." + values.year;
 
-        values.expiration = expiration;
-        values.freeze = selectedFreeze;
-        const data = { id, values };
+        const allValues = {
+            name: values.name,
+            expiration,
+            freeze: selectedFreeze,
+            category: values.category,
+            quantity: values.quantity,
+            note: values.note
+        };
+        const data = { id, allValues };
         navigation.goBack();
         dispatch(editMedication(data))
     };

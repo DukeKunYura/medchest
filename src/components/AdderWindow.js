@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, StyleSheet, TextInput, Text, TouchableOpacity, Modal } from 'react-native';
 import { setIsActiveAdderWindow, setSearch, addCategory, addMedication } from '../redux/masterSlice';
+import { addMedicationDB } from '../sqlite/db';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import CategoryChanger from './CategoryChanger';
@@ -32,23 +33,21 @@ export default function AdderWindow() {
             + "." + (values.month.length > 1 ? values.month : "0" + values.month) + "." + values.year;
 
         let medication = {
-            id: Date.now().toString(),
+            //id: Date.now().toString(),
             name: values.name,
-            category: values.category,
+            category: selectedCategory,
             expiration: expiration,
             quantity: "~",
             freeze: isFreezeMedication,
             note: ""
         };
 
-        if (medication.category === "") { medication.category = selectedCategory }
-        else {
-            if (!state.categories.includes(values.category)) { dispatch(addCategory(medication.category)) }
-        };
+        const item = addMedicationDB(medication);
 
-        console.log(medication);
+        item.then((data) => { dispatch(addMedication({ ...medication, id: data })) });
 
-        dispatch(addMedication(medication));
+        if (!state.categories.includes(values.category)) { dispatch(addCategory(medication.category)) }
+
 
     };
 

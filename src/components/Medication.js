@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { deleteMedication } from '../redux/masterSlice';
+import { deleteMedicationDB } from '../sqlite/db';
 import moment from 'moment';
 import localization from 'moment/locale/ru';
 import ConfirmationWindow from '../components/ConfirmationWindow';
@@ -24,6 +25,7 @@ export default function Medication(props) {
 
     const handleDeleteMedication = (id) => {
         setIsActiveConfirmationWindow(false);
+        deleteMedicationDB(id);
         dispatch(deleteMedication(id));
     };
 
