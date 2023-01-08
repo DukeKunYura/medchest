@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FlatList, Modal, View, StyleSheet } from 'react-native';
 import Header from '../components/Header';
 import { useSelector, useDispatch } from 'react-redux';
-import { setStartMedications } from '../redux/masterSlice'
+import { setStartCategories, setStartMedications } from '../redux/masterSlice';
 import { getMedicationsDB } from '../sqlite/db';
 import AdderWindow from '../components/AdderWindow';
 import FinderAdder from '../components/FinderAdder';
@@ -33,6 +33,7 @@ export default function HomeScreen({ navigation }) {
     useEffect(() => {
         getMedicationsDB().then(data => dispatch(setStartMedications(data)));
         console.log("get")
+        getMedicationsDB().then(data => dispatch(setStartCategories(data)));
 
     }, []);
 

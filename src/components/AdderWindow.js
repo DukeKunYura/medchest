@@ -42,11 +42,15 @@ export default function AdderWindow() {
             note: ""
         };
 
+        if (values.category !== "") { medication.category = values.category };
+
         const item = addMedicationDB(medication);
+
+        console.log(medication);
 
         item.then((data) => { dispatch(addMedication({ ...medication, id: data })) });
 
-        if (!state.categories.includes(values.category)) { dispatch(addCategory(medication.category)) }
+        if (!state.categories.includes(medication.category)) { dispatch(addCategory(medication.category)) }
 
 
     };

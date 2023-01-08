@@ -19,6 +19,11 @@ export const masterSlice = createSlice({
         setStartMedications: (state, action) => {
             state.medications = action.payload;
         },
+        setStartCategories: (state, action) => {
+            let items = action.payload.map(item => item.category);
+            let uniqueItems = [...new Set(items)]
+            state.categories = uniqueItems;
+        },
         setSearch: (state, action) => {
             state.search = action.payload;
         },
@@ -47,6 +52,7 @@ export const masterSlice = createSlice({
 
 export const {
     setStartMedications,
+    setStartCategories,
     setSearch,
     addMedication,
     editMedication,
