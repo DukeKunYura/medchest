@@ -4,11 +4,7 @@ const initialState = {
     search: "",
     isActiveAdderWindow: false,
     categories: ["антибиотики", "анальгетики", "витамины", "спазмальгетики"],
-    medications: [
-        {
-            id: "353t6356", name: "Поликор", category: "антибиотик", expiration: "16,09,23", quantity: "87",
-            note: "jnbfbgfkjb grgjnbfbgrtt tr r rr  t rtrhgtr tr."
-        },]
+    medications: []
 
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
@@ -17,11 +17,22 @@ export default function Medication(props) {
 
     const dispatch = useDispatch();
 
-    const [remainingPeriod, setRemainingPeriod] = useState("long")
-
     const [isActiveConfirmationWindow, setIsActiveConfirmationWindow] = useState(false);
 
     const endDate = moment(item.expiration, "DD,MM,YYYY").fromNow();
+
+    let now = Date.now().toString();
+
+    let endDateMs = moment(item.expiration, "DD,MM,YYYY").format("x");
+
+    let remainingPeriodMs = Number(endDateMs) - Number(now);
+
+    let remainingPeriod = "long";
+
+    if (remainingPeriodMs < 1) { remainingPeriod = "passed" }
+    else if (remainingPeriodMs < 607172262) { remainingPeriod = "week" }
+    else if (remainingPeriodMs < 2928359954) { remainingPeriod = "month" }
+
 
     const handleDeleteMedication = (id) => {
         setIsActiveConfirmationWindow(false);
@@ -29,18 +40,6 @@ export default function Medication(props) {
         dispatch(deleteMedication(id));
     };
 
-    useEffect(() => {
-        let now = Date.now().toString();
-        let endDate = moment(item.expiration, "DD,MM,YYYY").format("x");
-        let remainingPeriod = Number(endDate) - Number(now);
-
-        if (remainingPeriod < 1) { setRemainingPeriod("passed") }
-        else if (remainingPeriod < 607172262) { setRemainingPeriod("week") }
-        else if (remainingPeriod < 2928359954) { setRemainingPeriod("month") };
-
-        //setRemainingPeriod(remainingPeriod)
-
-    }, [props]);
 
     return (
         <View style={[styles.container, styles.boxShadow]}>
@@ -66,6 +65,7 @@ export default function Medication(props) {
                 {remainingPeriod === "week" && <Text style={styles.expirationWeek}>{endDate}</Text>}
                 {remainingPeriod !== "passed" && remainingPeriod !== "month" && remainingPeriod !== "week" &&
                     <Text style={styles.expirationLong}>{endDate}</Text>}
+                {/* <View><Text>{remainingPeriodMs2}</Text></View> */}
             </TouchableOpacity>
             <View style={styles.snowflake}>
                 {item.freeze === "холод" && <Fontisto name="snowflake" size={10} color="#8DCEF6" />}
