@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Modal, 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteMedication } from '../redux/masterSlice';
+import { deleteMedicationDB } from '../sqlite/db';
 import Editor from '../components/Editor';
 import Header from '../components/Header';
 import ConfirmationWindow from '../components/ConfirmationWindow';
@@ -26,6 +27,7 @@ export default function ItemScreen({ route, navigation }) {
     const handleDeleteMedication = (id) => {
         setIsActiveConfirmationWindow(false);
         navigation.goBack();
+        deleteMedicationDB(id);
         dispatch(deleteMedication(id));
     };
 
