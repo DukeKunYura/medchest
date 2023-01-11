@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
 import SpoiledScreen from '../screens/SpoiledScreen';
 import ItemScreen from '../screens/ItemScreen';
+import BackupScreen from '../screens/BackupScreen';
 import { NavigationContainer } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
@@ -14,16 +15,19 @@ export default function Navigation() {
                 <Stack.Screen
                     name="Home"
                     options={{ headerShown: false }}
-                    component={HomeScreen}
-                />
+                    component={HomeScreen} />
                 <Stack.Screen
                     name="Spoiled"
-                    component={SpoiledScreen}
-                    options={{ headerShown: false }} />
+                    options={{ headerShown: false }}
+                    component={SpoiledScreen} />
                 <Stack.Screen
                     name="Item"
-                    component={ItemScreen}
-                    options={{ headerShown: false }} />
+                    options={{ headerShown: false }}
+                    component={ItemScreen} />
+                <Stack.Screen
+                    name='Backup'
+                    options={{ headerShown: false }}
+                    component={BackupScreen} />
             </Stack.Navigator>
         </NavigationContainer>
 
