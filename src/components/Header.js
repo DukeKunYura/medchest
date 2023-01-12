@@ -1,12 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function Header(props) {
+
+    const { navigation } = props;
+
     return (
         <>
             <View style={styles.header}>
                 <Text style={styles.text}>Моя аптечка</Text>
             </View>
+            <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => { navigation.navigate('Backup') }}
+                style={styles.backup}>
+                <Text >Обл</Text>
+            </TouchableOpacity>
             {props.children}
         </>
 
@@ -27,5 +36,13 @@ const styles = StyleSheet.create({
         color: "#F1F8E9",
         fontSize: 26,
         marginBottom: 10
+    },
+    backup: {
+        position: "absolute",
+        marginTop: 65,
+        marginLeft: 20,
+        zIndex: 2
+
+
     }
 })

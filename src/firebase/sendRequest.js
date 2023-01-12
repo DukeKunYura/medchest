@@ -16,8 +16,8 @@ export default async function sendRequest(method, url, body = null) {
 
     const data = await response.json();
     if (data !== null) {
-        const posts = Object.keys(data).map(key => ({ ...data[key], id: key }));
-        return posts
+        const backups = Object.keys(data).map(key => ({ ...data[key], id: key }));
+        return backups
     } else {
         return []
     }

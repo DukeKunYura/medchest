@@ -39,7 +39,7 @@ export default function HomeScreen({ navigation }) {
 
     return (
         <View style={styles.home}>
-            <Header>
+            <Header navigation={navigation}>
                 <InformationBar />
             </Header>
             {medications &&
