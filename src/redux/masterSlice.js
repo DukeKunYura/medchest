@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     search: "",
     isActiveAdderWindow: false,
+    isActiveBackupCreator: true,
     categories: ["антибиотики", "анальгетики", "витамины", "спазмальгетики"],
     medications: []
 
@@ -39,6 +40,9 @@ export const masterSlice = createSlice({
         setIsActiveAdderWindow: (state, action) => {
             state.isActiveAdderWindow = action.payload
         },
+        setIsActiveBackupCreator: (state, action) => {
+            state.isActiveBackupCreator = action.payload
+        },
         addCategory: (state, action) => {
             state.categories = [...state.categories, action.payload]
         }
@@ -53,6 +57,7 @@ export const {
     addMedication,
     editMedication,
     setIsActiveAdderWindow,
+    setIsActiveBackupCreator,
     addCategory,
     deleteMedication } = masterSlice.actions;
 
