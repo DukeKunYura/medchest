@@ -39,7 +39,7 @@ export default function ItemScreen({ route, navigation }) {
 
     return (
         <>
-            <Header />
+            <Header navigation={navigation} />
             <KeyboardAvoidingView
                 behavior="position">
                 <Modal

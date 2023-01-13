@@ -31,3 +31,15 @@ export function deleteBackupDataFB(id) {
         resolve(data)
     })
 };
+
+export function updateBackupDataFB(id, backupData) {
+    return new Promise((resolve, reject) => {
+        const newBackup = { "backupData": backupData };
+        const data = sendRequest(
+            'PATCH',
+            `https://medchest-d692b-default-rtdb.europe-west1.firebasedatabase.app/backups/${id}.json`,
+            newBackup
+        );
+        resolve(data)
+    })
+};

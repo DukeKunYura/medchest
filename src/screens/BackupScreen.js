@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
-import { createBackupDataFB, deleteBackupDataFB } from '../firebase/firebase';
+import { createBackupDataFB, deleteBackupDataFB, updateBackupDataFB, getBackupDataFB } from '../firebase/firebase';
+import { addMedicationDB } from '../sqlite/db';
 import { addDBKey, getDBKeys, deleteDBKey } from '../sqlite/dbKeys';
 
-export default function BackupScreen() {
+export default function BackupScreen({ navigation }) {
 
     const state = useSelector((state) => state.master);
 
@@ -13,13 +14,47 @@ export default function BackupScreen() {
 
     const handleAdd = () => {
 
+        if (listKeys.length > 2) { return };
+
         const list = state.medications;
 
         const creatorBackup = createBackupDataFB(list);
 
         creatorBackup.then(data => addDBKey({ name: "имя", keyId: data.name }));
 
-        //creatorBackup.then(data => console.log({ id: data.name, backupData: list }));
+        navigation.navigate('Home');
+
+    };
+
+    const handleUpdateBackup = (item) => {
+
+        const list = state.medications;
+
+        updateBackupDataFB(item.keyId, list);
+
+        navigation.navigate('Home');
+
+    };
+
+    const handleLoadBackup = (item) => {
+
+        const getterBackup = getBackupDataFB(item.keyId);
+
+        getterBackup.then(data => console.log(data));
+
+        const insertBackup = (array) => {
+
+            array.map(element => {
+
+                console.log({
+                    name: element.name,
+
+                })
+
+            });
+        };
+
+        getterBackup.then(data => insertBackup(data));
 
     };
 
@@ -66,6 +101,14 @@ export default function BackupScreen() {
                         <TouchableOpacity
                             onPress={() => { handleDeleteBackup(item) }}>
                             <View><Text>DEL</Text></View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => { handleUpdateBackup(item) }}>
+                            <View><Text>UPDATE</Text></View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => { handleLoadBackup(item) }}>
+                            <View><Text>LOAD</Text></View>
                         </TouchableOpacity>
                     </View>
                 )}
