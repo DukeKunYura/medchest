@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addMedication } from '../redux/masterSlice';
+import { addMedication, setStartMedications } from '../redux/masterSlice';
 import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { createBackupDataFB, deleteBackupDataFB, updateBackupDataFB, getBackupDataFB } from '../firebase/firebase';
-import { addMedicationDB } from '../sqlite/db';
+import { addMedicationDB, deleteAllMedicationDB } from '../sqlite/db';
 import { addDBKey, getDBKeys, deleteDBKey } from '../sqlite/dbKeys';
 
 export default function BackupScreen({ navigation }) {
@@ -43,13 +43,17 @@ export default function BackupScreen({ navigation }) {
 
         const getterBackup = getBackupDataFB(item.keyId);
 
+        deleteAllMedicationDB();
+
+        dispatch(setStartMedications([]));
+
         const insertBackup = (array) => {
 
             let backup = array[0];
 
             delete backup.id;
 
-            for (key in backup) {
+            for (let key in backup) {
 
                 let medication = {
                     name: backup[key].name,
@@ -79,7 +83,7 @@ export default function BackupScreen({ navigation }) {
 
         deleteDBKey(item.id);
 
-        newArr = listKeys.filter(i => i.id !== item.id);
+        let newArr = listKeys.filter(i => i.id !== item.id);
 
         setListKeys(newArr);
 
@@ -93,11 +97,7 @@ export default function BackupScreen({ navigation }) {
 
     };
 
-    useEffect(() => {
-        handleGet();
-
-    }, []);
-
+    useEffect(() => { handleGet() }, []);
 
     return (
         <>

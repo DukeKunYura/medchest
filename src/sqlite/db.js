@@ -55,6 +55,20 @@ export function deleteMedicationDB(id) {
 
 };
 
+export function deleteAllMedicationDB() {
+    return new Promise((resolve, reject) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                'DELETE FROM medications',
+                [],
+                resolve,
+                (_, error) => reject(error)
+            )
+        })
+    })
+
+};
+
 export function updateMedicationDB(data, id) {
     return new Promise((resolve, reject) => {
         db.transaction(tx => {
