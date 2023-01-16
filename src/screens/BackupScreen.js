@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addMedication } from '../redux/masterSlice';
 import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { createBackupDataFB, deleteBackupDataFB, updateBackupDataFB, getBackupDataFB } from '../firebase/firebase';
 import { addMedicationDB } from '../sqlite/db';
@@ -8,6 +9,8 @@ import { addDBKey, getDBKeys, deleteDBKey } from '../sqlite/dbKeys';
 export default function BackupScreen({ navigation }) {
 
     const state = useSelector((state) => state.master);
+
+    const dispatch = useDispatch();
 
     const [listKeys, setListKeys] = useState([]);
     const [isActiveCreateButton, setIsActiveCreateButton] = useState(state.isActiveBackupCreator);
@@ -40,18 +43,30 @@ export default function BackupScreen({ navigation }) {
 
         const getterBackup = getBackupDataFB(item.keyId);
 
-        getterBackup.then(data => console.log(data));
-
         const insertBackup = (array) => {
 
-            array.map(element => {
+            let backup = array[0];
 
-                console.log({
-                    name: element.name,
+            delete backup.id;
 
-                })
+            for (key in backup) {
 
-            });
+                let medication = {
+                    name: backup[key].name,
+                    category: backup[key].category,
+                    expiration: backup[key].expiration,
+                    quantity: backup[key].quantity,
+                    freeze: backup[key].freeze,
+                    note: backup[key].note
+                };
+
+                const item = addMedicationDB(medication);
+
+                item.then((data) => { dispatch(addMedication({ ...medication, id: data })) });
+
+            }
+
+            navigation.navigate('Home');
         };
 
         getterBackup.then(data => insertBackup(data));
