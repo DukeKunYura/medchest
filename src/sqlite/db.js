@@ -69,12 +69,12 @@ export function deleteAllMedicationDB() {
 
 };
 
-export function updateMedicationDB(data, id) {
+export function updateMedicationDB({ name, category, expiration, quantity, freeze, note, id }) {
     return new Promise((resolve, reject) => {
         db.transaction(tx => {
             tx.executeSql(
-                'UPDATE medications SET freeze = ? WHERE id = ?',
-                [data, id],
+                'UPDATE medications SET name = ?, category = ?, expiration = ?, quantity = ?, freeze = ?, note = ? WHERE id = ?',
+                [name, category, expiration, quantity, freeze, note, id],
                 resolve,
                 (_, error) => reject(error)
             )

@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { editMedication } from '../redux/masterSlice';
+import { updateMedicationDB } from '../sqlite/db';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Modal } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CategoryChangerEditor from './CategoryChangerEditor';
@@ -59,7 +60,9 @@ export default function Editor({ item, navigation }) {
         };
         const data = { id, allValues };
         navigation.goBack();
-        dispatch(editMedication(data))
+        dispatch(editMedication(data));
+        console.log(allValues);
+        updateMedicationDB(allValues);
     };
 
     const formValidationSchema = Yup.object().shape({

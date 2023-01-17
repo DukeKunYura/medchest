@@ -31,8 +31,7 @@ export const masterSlice = createSlice({
             state.medications = state.medications.filter(item => item.id !== action.payload.id)
             let medication = action.payload.allValues;
             medication.id = action.payload.id;
-            state.medications = [medication, ...state.medications];
-            console.log(medication);
+            state.medications = [medication, ...state.medications]
         },
         deleteMedication: (state, action) => {
             state.medications = state.medications.filter(item => item.id !== action.payload)
