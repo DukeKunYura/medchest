@@ -15,7 +15,7 @@ export default function BackupScreen({ navigation }) {
     const [listKeys, setListKeys] = useState([]);
     const [isActiveCreateButton, setIsActiveCreateButton] = useState(state.isActiveBackupCreator);
 
-    const handleAdd = () => {
+    const handleAddBackup = () => {
 
         if (listKeys.length > 2) { return };
 
@@ -24,6 +24,16 @@ export default function BackupScreen({ navigation }) {
         const creatorBackup = createBackupDataFB(list);
 
         creatorBackup.then(data => addDBKey({ name: "имя", keyId: data.name }));
+
+        navigation.navigate('Home');
+
+    };
+
+    const handleDeleteAllMedications = () => {
+
+        deleteAllMedicationDB();
+
+        dispatch(setStartMedications([]));
 
         navigation.navigate('Home');
 
@@ -108,7 +118,10 @@ export default function BackupScreen({ navigation }) {
                 <Text>BackupScreen</Text>
                 <Button
                     title='add'
-                    onPress={handleAdd} />
+                    onPress={handleAddBackup} />
+                <Button
+                    title='DELAll'
+                    onPress={handleDeleteAllMedications} />
                 {listKeys.length !== 0 && listKeys.map(item =>
                     <View key={item.keyId}>
                         <Text>{item.name}</Text>

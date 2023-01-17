@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
-export default function InfoBar() {
+export default function InformationBar({ setIsActiveSortingChanger, typeSorting }) {
     return (
         <View style={styles.info}>
             <TouchableOpacity activeOpacity={0.5} style={styles.category}>
@@ -10,10 +10,10 @@ export default function InfoBar() {
                     <Text style={styles.name}>Все препараты</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.5} style={styles.sort}>
+            <TouchableOpacity activeOpacity={0.5} style={styles.sort} onPress={() => { setIsActiveSortingChanger(true) }}>
                 <Text style={styles.infotext}>Сотировка</Text>
                 <View style={styles.title}>
-                    <Text style={styles.name}>Новые</Text>
+                    <Text style={styles.name}>{typeSorting}</Text>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.5} style={styles.sort}>

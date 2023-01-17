@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, Modal, View, StyleSheet } from 'react-native';
 import Header from '../components/Header';
+import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
 import { setStartCategories, setStartMedications } from '../redux/masterSlice';
 import { getMedicationsDB } from '../sqlite/db';
@@ -8,6 +9,7 @@ import AdderWindow from '../components/AdderWindow';
 import FinderAdder from '../components/FinderAdder';
 import Medication from '../components/Medication';
 import InformationBar from '../components/InformationBar';
+import SortingTypeChanger from '../components/SortingTypeChanger';
 
 export default function HomeScreen({ navigation }) {
 
@@ -16,19 +18,40 @@ export default function HomeScreen({ navigation }) {
     const dispatch = useDispatch();
 
     const [medications, setMedications] = useState(state.medications);
+    const [isActiveSortingChanger, setIsActiveSortingChanger] = useState(false);
+    const [typeSorting, setTypeSorting] = useState("Новые");
+
+    const sortingMedicationsList = (array, typeSorting) => {
+
+        if (typeSorting === "Новые") {
+            return array.sort((a, b) => parseFloat(b.id) - parseFloat(a.id));
+        } if (typeSorting === "Срок") {
+            return array.sort((a, b) =>
+                (moment(a.expiration, "DD,MM,YYYY").format("x")) - (moment(b.expiration, "DD,MM,YYYY").format("x")))
+        } if (typeSorting === "Алфавит") {
+            return array.sort((a, b) => a.name.localeCompare(b.name))
+        }
+
+    };
 
     useEffect(() => {
         if (state.search !== "") {
             let newArr = state.medications.filter(item =>
                 item.name.toLowerCase().includes(state.search.toLowerCase()))
             setMedications(newArr);
+
         } else { setMedications(state.medications) }
     }, [state.search, state.medications]);
 
     useEffect(() => {
-        setMedications(state.medications);
+
+        let newArrSort = state.medications.slice();
+
+        setMedications(sortingMedicationsList(newArrSort, typeSorting));
+
         console.log("update");
-    }, [state.medications]);
+
+    }, [state.medications, typeSorting]);
 
     useEffect(() => {
         getMedicationsDB().then(data => dispatch(setStartMedications(data)));
@@ -40,7 +63,7 @@ export default function HomeScreen({ navigation }) {
     return (
         <View style={styles.home}>
             <Header navigation={navigation}>
-                <InformationBar />
+                <InformationBar setIsActiveSortingChanger={setIsActiveSortingChanger} typeSorting={typeSorting} />
             </Header>
             {medications &&
                 <View style={styles.page}>
@@ -55,6 +78,12 @@ export default function HomeScreen({ navigation }) {
                 animationType="slide"
                 transparent={true}>
                 <AdderWindow />
+            </Modal>
+            <Modal
+                visible={isActiveSortingChanger}
+                animationType="none"
+                transparent={true}>
+                <SortingTypeChanger setTypeSorting={setTypeSorting} setIsActiveSortingChanger={setIsActiveSortingChanger} />
             </Modal>
         </View>
     );
