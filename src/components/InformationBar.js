@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { setQuantitySpoiled } from '../redux/masterSlice';
+import moment from 'moment';
 
 export default function InformationBar({
     navigation,
@@ -7,6 +10,19 @@ export default function InformationBar({
     typeSorting,
     setIsActiveFilterChanger,
     typeFilter }) {
+
+
+    const state = useSelector((state) => state.master);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const quantity = state.medications.filter(item =>
+            (Number(moment(item.expiration, "DD,MM,YYYY").format("x")) - Number(Date.now().toString())) < 1).length;
+
+        dispatch(setQuantitySpoiled(quantity));
+
+    }, [state.medications]);
 
     return (
         <View style={styles.info}>
@@ -34,7 +50,7 @@ export default function InformationBar({
                 onPress={() => { navigation.navigate('Spoiled') }}>
                 <Text style={styles.infotext}>Срок</Text>
                 <View style={styles.title}>
-                    <Text style={styles.name}>Истек 0</Text>
+                    <Text style={styles.name}>Истек {state.quantitySpoiled}</Text>
                 </View>
             </TouchableOpacity>
         </View>

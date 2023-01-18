@@ -50,11 +50,15 @@ export default function HomeScreen({ navigation }) {
 
         let newArrSort = state.medications.slice();
 
-        setMedications(sortingMedicationsList(newArrSort, typeSorting));
+        if (typeFilter === "Все категории") {
+            setMedications(sortingMedicationsList(newArrSort, typeSorting));
+        } else {
+            setMedications(sortingMedicationsList(newArrSort, typeSorting).filter(item => item.category === typeFilter));
+        };
 
         console.log("update");
 
-    }, [state.medications, typeSorting]);
+    }, [state.medications, typeSorting, typeFilter]);
 
     useEffect(() => {
         getMedicationsDB().then(data => dispatch(setStartMedications(data)));

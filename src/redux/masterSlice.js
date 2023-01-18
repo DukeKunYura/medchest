@@ -5,8 +5,8 @@ const initialState = {
     isActiveAdderWindow: false,
     isActiveBackupCreator: true,
     categories: ["антибиотики", "анальгетики", "витамины", "спазмальгетики"],
-    medications: []
-
+    medications: [],
+    quantitySpoiled: 0
 };
 
 export const masterSlice = createSlice({
@@ -44,6 +44,9 @@ export const masterSlice = createSlice({
         },
         addCategory: (state, action) => {
             state.categories = [...state.categories, action.payload]
+        },
+        setQuantitySpoiled: (state, action) => {
+            state.quantitySpoiled = action.payload
         }
     }
 });
@@ -58,6 +61,7 @@ export const {
     setIsActiveAdderWindow,
     setIsActiveBackupCreator,
     addCategory,
-    deleteMedication } = masterSlice.actions;
+    deleteMedication,
+    setQuantitySpoiled } = masterSlice.actions;
 
 export default masterSlice.reducer
