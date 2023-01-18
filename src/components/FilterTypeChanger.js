@@ -1,9 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { useSelector } from 'react-redux';
+import { View, StyleSheet, TouchableOpacity, Text, ScrollView } from 'react-native';
+import 'react-native-get-random-values';
+import { nanoid } from 'nanoid'
 
-export default function FilterTypeChanger({ setIsActiveFilterChanger }) {
+export default function FilterTypeChanger({ setIsActiveFilterChanger, setTypeFilter }) {
 
-    const filterTypes = [{ title: "Все категории", id: "1" }, { title: "Разное", id: "2" }, { title: "Антибиотики", id: "3" }];
+    const state = useSelector((state) => state.master);
+
+    const filterTypes = state.categories
 
     return (
 
@@ -14,19 +19,27 @@ export default function FilterTypeChanger({ setIsActiveFilterChanger }) {
             <View style={styles.changer}>
                 <View style={[styles.window, styles.boxShadow]}>
                     <View style={styles.header}>
-                        <Text style={styles.headerText}>сортировка:</Text>
+                        <Text style={styles.headerText}>категории:</Text>
                     </View>
-                    <View style={styles.list}>
-                        {filterTypes.map(item =>
+                    <ScrollView>
+                        <View style={styles.list}>
                             <TouchableOpacity
                                 style={styles.change}
-                                key={item.id}
                                 activeOpacity={0.5}
-                                onPress={() => { setIsActiveFilterChanger(false) }}>
-                                <View ><Text style={styles.text}>{item.title}</Text></View>
+                                onPress={() => { setTypeFilter("Все категории"); setIsActiveFilterChanger(false) }}>
+                                <View ><Text style={styles.text}>Все категории</Text></View>
                             </TouchableOpacity>
-                        )}
-                    </View>
+                            {filterTypes.map(item =>
+                                <TouchableOpacity
+                                    style={styles.change}
+                                    key={nanoid(5)}
+                                    activeOpacity={0.5}
+                                    onPress={() => { setTypeFilter(item); setIsActiveFilterChanger(false) }}>
+                                    <View ><Text style={styles.text}>{item}</Text></View>
+                                </TouchableOpacity>
+                            )}
+                        </View>
+                    </ScrollView>
                 </View>
             </View>
         </>

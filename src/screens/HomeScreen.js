@@ -22,6 +22,7 @@ export default function HomeScreen({ navigation }) {
     const [isActiveFilterChanger, setIsActiveFilterChanger] = useState(false);
     const [isActiveSortingChanger, setIsActiveSortingChanger] = useState(false);
     const [typeSorting, setTypeSorting] = useState("Новые");
+    const [typeFilter, setTypeFilter] = useState("Все категории");
 
     const sortingMedicationsList = (array, typeSorting) => {
 
@@ -68,7 +69,8 @@ export default function HomeScreen({ navigation }) {
                 <InformationBar
                     setIsActiveSortingChanger={setIsActiveSortingChanger}
                     setIsActiveFilterChanger={setIsActiveFilterChanger}
-                    typeSorting={typeSorting} />
+                    typeSorting={typeSorting}
+                    typeFilter={typeFilter} />
             </Header>
             {medications &&
                 <View style={styles.page}>
@@ -97,6 +99,7 @@ export default function HomeScreen({ navigation }) {
                 animationType="none"
                 transparent={true}>
                 <FilterTypeChanger
+                    setTypeFilter={setTypeFilter}
                     setIsActiveFilterChanger={setIsActiveFilterChanger} />
             </Modal>
         </View>

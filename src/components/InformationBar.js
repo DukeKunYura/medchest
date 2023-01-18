@@ -1,7 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
-export default function InformationBar({ setIsActiveSortingChanger, typeSorting, setIsActiveFilterChanger }) {
+export default function InformationBar({
+    setIsActiveSortingChanger,
+    typeSorting,
+    setIsActiveFilterChanger,
+    typeFilter }) {
+
     return (
         <View style={styles.info}>
             <TouchableOpacity
@@ -10,7 +15,7 @@ export default function InformationBar({ setIsActiveSortingChanger, typeSorting,
                 onPress={() => { setIsActiveFilterChanger(true) }}>
                 <Text style={styles.infotext}>Категория</Text>
                 <View style={styles.title}>
-                    <Text style={styles.name}>Все препараты</Text>
+                    <Text style={styles.name}>{typeFilter}</Text>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity
