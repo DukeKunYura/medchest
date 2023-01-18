@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 export default function InformationBar({
+    navigation,
     setIsActiveSortingChanger,
     typeSorting,
     setIsActiveFilterChanger,
@@ -27,7 +28,10 @@ export default function InformationBar({
                     <Text style={styles.name}>{typeSorting}</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.5} style={styles.sort}>
+            <TouchableOpacity
+                activeOpacity={0.5}
+                style={styles.sort}
+                onPress={() => { navigation.navigate('Spoiled') }}>
                 <Text style={styles.infotext}>Срок</Text>
                 <View style={styles.title}>
                     <Text style={styles.name}>Истек 0</Text>

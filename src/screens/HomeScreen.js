@@ -67,6 +67,7 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.home}>
             <Header navigation={navigation}>
                 <InformationBar
+                    navigation={navigation}
                     setIsActiveSortingChanger={setIsActiveSortingChanger}
                     setIsActiveFilterChanger={setIsActiveFilterChanger}
                     typeSorting={typeSorting}
