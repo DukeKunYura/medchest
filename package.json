@@ -31,7 +31,6 @@
     "react-native-ui-xg": "^0.0.6",
     "react-redux": "^8.0.5",
     "redux": "^4.2.0",
-    "short-id": "^0.1.0-1",
     "yup": "^0.32.11"
   },
   "devDependencies": {
