@@ -5,6 +5,8 @@ import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { createBackupDataFB, deleteBackupDataFB, updateBackupDataFB, getBackupDataFB } from '../firebase/firebase';
 import { addMedicationDB, deleteAllMedicationDB } from '../sqlite/db';
 import { addDBKey, getDBKeys, deleteDBKey } from '../sqlite/dbKeys';
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function BackupScreen({ navigation }) {
 
@@ -87,6 +89,12 @@ export default function BackupScreen({ navigation }) {
 
     };
 
+    const handleLoadBackupWithKey = (key) => {
+
+        console.log(key)
+
+    };
+
     const handleDeleteBackup = (item) => {
 
         deleteBackupDataFB(item.keyId);
@@ -115,13 +123,54 @@ export default function BackupScreen({ navigation }) {
                 <Text style={styles.textHeader}>Моя аптечка</Text>
             </View>
             <View style={styles.container}>
-                <Text>BackupScreen</Text>
-                <Button
-                    title='add'
-                    onPress={handleAddBackup} />
-                <Button
-                    title='DELAll'
-                    onPress={handleDeleteAllMedications} />
+                <Text style={styles.textTitle}>Резервное копирование</Text>
+                <View style={styles.buttons}>
+                    <TouchableOpacity
+                        activeOpacity={0.5}
+                        onPress={handleAddBackup}>
+                        <View style={styles.buttonAddBackup}>
+                            <Ionicons name="md-cloud-done-outline" size={24} color="white" />
+                            <Text style={styles.buttonText}>Сделать backup</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        activeOpacity={0.5}
+                        onPress={handleLoadBackupWithKey}>
+                        <View style={styles.buttonLoadBackup}>
+                            <Ionicons name="md-cloud-download-outline" size={24} color="white" />
+                            <Text style={styles.buttonText}>Загрузить backup</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        activeOpacity={0.5}
+                        onPress={handleDeleteAllMedications}>
+                        <View style={styles.buttonLoadBackup}>
+                            <MaterialCommunityIcons name="delete-alert-outline" size={22} color="#fb8ba2" />
+                            <Text style={styles.buttonText}>Очистить приложение</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <View style={[styles.containerList, styles.boxShadow]}>
+                    <View style={styles.titleList}>
+                        <Text style={styles.name}>Name</Text>
+                        <Text style={styles.key}>ключ</Text>
+                    </View>
+                    <View style={styles.list}>
+                        <TouchableOpacity
+                            activeOpacity={0.5}>
+                            <View style={styles.edit}>
+                                <Text>edit</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            activeOpacity={0.5}>
+                            <View style={styles.edit}>
+                                <Text>edit</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                    </View>
+                </View>
                 {listKeys.length !== 0 && listKeys.map(item =>
                     <View key={item.keyId}>
                         <Text>{item.name}</Text>
@@ -166,4 +215,87 @@ const styles = StyleSheet.create({
         fontSize: 26,
         marginBottom: 10
     },
+    textTitle: {
+        fontSize: 18,
+    },
+    buttonAddBackup: {
+        flexDirection: "row",
+        height: 40,
+        width: 230,
+        backgroundColor: "#AED581",
+        borderColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        justifyContent: "space-between",
+        paddingLeft: 20,
+        paddingRight: 20,
+        marginBottom: 20,
+        alignItems: "center"
+    },
+    buttonLoadBackup: {
+        flexDirection: "row",
+        height: 40,
+        width: 230,
+        backgroundColor: "#AED581",
+        borderColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        justifyContent: "space-between",
+        paddingLeft: 20,
+        paddingRight: 20,
+        marginBottom: 20,
+        alignItems: "center"
+    },
+    containerList: {
+        flexDirection: "row",
+        backgroundColor: "white",
+        justifyContent: "space-between",
+        alignItems: "center",
+        margin: 5,
+        borderRadius: 6
+    },
+    titleList: {
+        alignItems: "flex-start",
+        marginLeft: 16,
+        width: "60%"
+    },
+    name: {
+        fontSize: 16
+    },
+    key: {
+        color: "grey"
+    },
+    list: {
+        flexDirection: "row",
+        marginRight: 5
+    },
+    edit: {
+        marginRight: 10
+    }
 })
+
+const generateBoxShadowStyle = (
+    xOffset,
+    yOffset,
+    shadowColorIos,
+    shadowOpacity,
+    shadowRadius,
+    elevation,
+    shadowColorAndroid,
+) => {
+    if (Platform.OS === 'ios') {
+        styles.boxShadow = {
+            shadowColor: shadowColorIos,
+            shadowOffset: { width: xOffset, height: yOffset },
+            shadowOpacity,
+            shadowRadius,
+        };
+    } else if (Platform.OS === 'android') {
+        styles.boxShadow = {
+            elevation,
+            shadowColor: shadowColorAndroid,
+        };
+    }
+};
+
+generateBoxShadowStyle(-2, 4, '#171717', 0.2, 3, 2, '#171717');

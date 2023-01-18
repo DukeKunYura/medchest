@@ -65,7 +65,6 @@ export default function Medication(props) {
                 {remainingPeriod === "week" && <Text style={styles.expirationWeek}>{endDate}</Text>}
                 {remainingPeriod !== "passed" && remainingPeriod !== "month" && remainingPeriod !== "week" &&
                     <Text style={styles.expirationLong}>{endDate}</Text>}
-                {/* <View><Text>{remainingPeriodMs2}</Text></View> */}
             </TouchableOpacity>
             <View style={styles.snowflake}>
                 {item.freeze === "холод" && <Fontisto name="snowflake" size={10} color="#8DCEF6" />}
