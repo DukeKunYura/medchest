@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
-export default function FreezeChangeEditor({ handleFreezeChanger }) {
+export default function FreezeChangeEditor({ handleFreezeChanger, setIsActiveChangeFreeze }) {
 
 
     const handlerRowChooser = (freeze) => { handleFreezeChanger(freeze) };
@@ -9,7 +9,9 @@ export default function FreezeChangeEditor({ handleFreezeChanger }) {
 
     return (
         <>
-            <View style={styles.changerBack}></View>
+            <TouchableOpacity
+                style={styles.changerBack}
+                onPress={() => { setIsActiveChangeFreeze(false) }} />
             <View style={styles.changer}>
                 <View style={[styles.window, styles.boxShadow]}>
                     <View style={styles.header}>

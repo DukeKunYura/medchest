@@ -10,6 +10,7 @@ import FinderAdder from '../components/FinderAdder';
 import Medication from '../components/Medication';
 import InformationBar from '../components/InformationBar';
 import SortingTypeChanger from '../components/SortingTypeChanger';
+import FilterTypeChanger from '../components/FilterTypeChanger';
 
 export default function HomeScreen({ navigation }) {
 
@@ -18,6 +19,7 @@ export default function HomeScreen({ navigation }) {
     const dispatch = useDispatch();
 
     const [medications, setMedications] = useState(state.medications);
+    const [isActiveFilterChanger, setIsActiveFilterChanger] = useState(false);
     const [isActiveSortingChanger, setIsActiveSortingChanger] = useState(false);
     const [typeSorting, setTypeSorting] = useState("Новые");
 
@@ -63,7 +65,10 @@ export default function HomeScreen({ navigation }) {
     return (
         <View style={styles.home}>
             <Header navigation={navigation}>
-                <InformationBar setIsActiveSortingChanger={setIsActiveSortingChanger} typeSorting={typeSorting} />
+                <InformationBar
+                    setIsActiveSortingChanger={setIsActiveSortingChanger}
+                    setIsActiveFilterChanger={setIsActiveFilterChanger}
+                    typeSorting={typeSorting} />
             </Header>
             {medications &&
                 <View style={styles.page}>
@@ -83,7 +88,16 @@ export default function HomeScreen({ navigation }) {
                 visible={isActiveSortingChanger}
                 animationType="none"
                 transparent={true}>
-                <SortingTypeChanger setTypeSorting={setTypeSorting} setIsActiveSortingChanger={setIsActiveSortingChanger} />
+                <SortingTypeChanger
+                    setTypeSorting={setTypeSorting}
+                    setIsActiveSortingChanger={setIsActiveSortingChanger} />
+            </Modal>
+            <Modal
+                visible={isActiveFilterChanger}
+                animationType="none"
+                transparent={true}>
+                <FilterTypeChanger
+                    setIsActiveFilterChanger={setIsActiveFilterChanger} />
             </Modal>
         </View>
     );

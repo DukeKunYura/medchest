@@ -82,15 +82,19 @@ export default function Editor({ item, navigation }) {
             </View>
             <Modal
                 visible={isActiveChangeCategory}
-                animationType="fade"
+                animationType="none"
                 transparent={true}>
-                <CategoryChangerEditor handleCategoryChanger={handleCategoryChanger} />
+                <CategoryChangerEditor
+                    handleCategoryChanger={handleCategoryChanger}
+                    setIsActiveChangeCategory={setIsActiveChangeCategory} />
             </Modal>
             <Modal
                 visible={isActiveChangeFreeze}
-                animationType="fade"
+                animationType="none"
                 transparent={true}>
-                <FreezeChangerEditor handleFreezeChanger={handleFreezeChanger} />
+                <FreezeChangerEditor
+                    handleFreezeChanger={handleFreezeChanger}
+                    setIsActiveChangeFreeze={setIsActiveChangeFreeze} />
             </Modal>
             <Formik
                 validationSchema={formValidationSchema}

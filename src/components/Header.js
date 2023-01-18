@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Header(props) {
 
@@ -14,7 +15,7 @@ export default function Header(props) {
                 activeOpacity={0.5}
                 onPress={() => { navigation.navigate('Backup') }}
                 style={styles.backup}>
-                <Text >Обл</Text>
+                <MaterialIcons name="cloud-queue" size={24} color="white" />
             </TouchableOpacity>
             {props.children}
         </>

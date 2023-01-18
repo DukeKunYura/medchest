@@ -8,7 +8,9 @@ export default function ConfirmationWindow(props) {
 
     return (
         <>
-            <View style={styles.confirmationBack}></View>
+            <TouchableOpacity
+                style={styles.confirmationBack}
+                onPress={() => { setIsActiveConfirmationWindow(false) }} />
             <View style={styles.changer}>
                 <View style={[styles.window, styles.boxShadow]}>
                     <View style={styles.header}>

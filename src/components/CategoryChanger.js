@@ -27,7 +27,9 @@ export default function CategoryChanger({ handleCategoryChanger, selectedCategor
                     visible={isActiveChange}
                     animationType="fade"
                     transparent={true}>
-                    <View style={styles.changerBack}></View>
+                    <TouchableOpacity
+                        style={styles.changerBack}
+                        onPress={() => { setIsActiveChange(false) }} />
                     <View style={styles.changer}>
                         <View style={[styles.window, styles.boxShadow]}>
                             <View style={styles.header}>

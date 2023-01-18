@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ScrollView, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 
-export default function CategoryChangerEditor({ handleCategoryChanger }) {
+export default function CategoryChangerEditor({ handleCategoryChanger, setIsActiveChangeCategory }) {
 
     const state = useSelector((state) => state.master);
 
@@ -10,7 +10,9 @@ export default function CategoryChangerEditor({ handleCategoryChanger }) {
 
     return (
         <>
-            <View style={styles.changerBack}></View>
+            <TouchableOpacity
+                style={styles.changerBack}
+                onPress={() => { setIsActiveChangeCategory(false) }} />
             <View style={styles.changer}>
                 <View style={[styles.window, styles.boxShadow]}>
                     <View style={styles.header}>

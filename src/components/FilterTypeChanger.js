@@ -1,28 +1,28 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
-export default function SortingTypeChanger({ setTypeSorting, setIsActiveSortingChanger }) {
+export default function FilterTypeChanger({ setIsActiveFilterChanger }) {
 
-    const sortingTypes = [{ title: "Новые", id: "1" }, { title: "Срок", id: "2" }, { title: "Алфавит", id: "3" }];
+    const filterTypes = [{ title: "Все категории", id: "1" }, { title: "Разное", id: "2" }, { title: "Антибиотики", id: "3" }];
 
     return (
 
         <>
             <TouchableOpacity
                 style={styles.changerBack}
-                onPress={() => { setIsActiveSortingChanger(false) }} />
+                onPress={() => { setIsActiveFilterChanger(false) }} />
             <View style={styles.changer}>
                 <View style={[styles.window, styles.boxShadow]}>
                     <View style={styles.header}>
                         <Text style={styles.headerText}>сортировка:</Text>
                     </View>
                     <View style={styles.list}>
-                        {sortingTypes.map(item =>
+                        {filterTypes.map(item =>
                             <TouchableOpacity
                                 style={styles.change}
                                 key={item.id}
                                 activeOpacity={0.5}
-                                onPress={() => { setTypeSorting(item.title); setIsActiveSortingChanger(false) }}>
+                                onPress={() => { setIsActiveFilterChanger(false) }}>
                                 <View ><Text style={styles.text}>{item.title}</Text></View>
                             </TouchableOpacity>
                         )}
