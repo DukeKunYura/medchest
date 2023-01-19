@@ -14,7 +14,8 @@ export default function ConfirmationWindow(props) {
             <View style={styles.changer}>
                 <View style={[styles.window, styles.boxShadow]}>
                     <View style={styles.header}>
-                        <Text style={styles.headerText}>{text}{item.name}</Text>
+                        <Text style={styles.headerText}>{text}</Text>
+                        <Text style={styles.headerText}>{item.name}</Text>
                     </View>
                     <View>
                         <View style={styles.buttonsMenu}>
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
         width: "100%"
     },
     window: {
-        height: 120,
+        height: 130,
         width: "80%",
         backgroundColor: "#d5edb9",
         borderWidth: 1,
@@ -70,10 +71,10 @@ const styles = StyleSheet.create({
     },
     header: {
         width: "100%",
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        marginBottom: 20
+        marginBottom: 10
     },
     headerText: {
         fontSize: 18,

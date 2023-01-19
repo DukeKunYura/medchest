@@ -10,6 +10,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ConfirmationWindow from '../components/ConfirmationWindow';
 import ConfirmationClearWindow from '../components/ConfirmationClearWindow';
 import BackupAdderWindow from '../components/BackupAdderWindow';
+import InputKeyWindow from '../components/InputKeyWindow';
 
 export default function BackupScreen({ navigation }) {
 
@@ -127,7 +128,7 @@ export default function BackupScreen({ navigation }) {
 
     const handleGet = () => {
 
-        getDBKeys().then(data => setListKeys(data));
+        getDBKeys().then(data => setListKeys(data.reverse()));
 
         getDBKeys().then(data => console.log(data));
 
@@ -144,6 +145,14 @@ export default function BackupScreen({ navigation }) {
                 <BackupAdderWindow
                     handleExecutor={handleAddBackup}
                     setIsActive={setIsActiveBackupAdderWindow} />
+            </Modal>
+            <Modal
+                visible={isActiveInputKeyWindow}
+                animationType="none"
+                transparent={true}>
+                <InputKeyWindow
+                    handleExecutor={handleLoadBackup}
+                    setIsActive={setIsActiveInputKeyWindow} />
             </Modal>
             <Modal
                 visible={isActiveConfirmClearWindow}
@@ -200,7 +209,7 @@ export default function BackupScreen({ navigation }) {
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={0.5}
-                        onPress={handleLoadBackupWithKey}>
+                        onPress={() => { setIsActiveInputKeyWindow(true) }}>
                         <View style={styles.buttonLoadBackup}>
                             <Ionicons name="md-cloud-download-outline" size={24} color="white" />
                             <Text style={styles.buttonText}>Загрузить backup</Text>
@@ -215,16 +224,16 @@ export default function BackupScreen({ navigation }) {
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.containerSaves}>
-                    <View><Text style={styles.textTitle}>Контрольные точки</Text></View>
-                    {listKeys.length !== 0 && listKeys.map(item =>
+                <View><Text style={styles.textTitleSaves}>Контрольные точки</Text></View>
+                {listKeys.length !== 0 ?
+                    listKeys.map(item =>
                         <View key={item.keyId}>
-                            <View style={[styles.containerList, styles.boxShadow]} >
+                            <View style={[styles.containerListItem, styles.boxShadow]} >
                                 <View style={styles.titleList}>
                                     <Text style={styles.name}>{item.name}</Text>
                                     <Text style={styles.key}>{item.keyId}</Text>
                                 </View>
-                                <View style={styles.list}>
+                                <View style={styles.itemButtons}>
                                     <TouchableOpacity
                                         activeOpacity={0.5}
                                         onPress={() => { setBackupItem(item); setIsActiveConfirmUpdateBackupWindow(true) }}>
@@ -248,10 +257,15 @@ export default function BackupScreen({ navigation }) {
                                     </TouchableOpacity>
                                 </View>
                             </View>
+                        </View>)
+                    :
+                    <View style={[styles.containerListItem, styles.boxShadow]} >
+                        <View style={styles.titleList}>
+                            <Text style={styles.name}>Пусто</Text>
+                            <Text style={styles.key}>--------</Text>
                         </View>
-
-                    )}
-                </View>
+                    </View>
+                }
             </View>
         </>
 
@@ -261,7 +275,7 @@ export default function BackupScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "space-around",
+        justifyContent: "flex-start",
         alignItems: "center"
     },
     header: {
@@ -279,6 +293,13 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     textTitle: {
+        marginTop: 30,
+        marginBottom: 6,
+        fontSize: 18,
+    },
+    textTitleSaves: {
+        marginTop: 16,
+        marginBottom: 6,
         fontSize: 18,
     },
     buttonAddBackup: {
@@ -292,7 +313,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         paddingLeft: 20,
         paddingRight: 20,
-        marginBottom: 20,
+        margin: 10,
         alignItems: "center"
     },
     buttonAddBackupOff: {
@@ -306,7 +327,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         paddingLeft: 20,
         paddingRight: 20,
-        marginBottom: 20,
+        margin: 10,
         alignItems: "center"
     },
     buttonLoadBackup: {
@@ -320,27 +341,23 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         paddingLeft: 20,
         paddingRight: 20,
-        marginBottom: 20,
+        margin: 10,
         alignItems: "center"
     },
-    containerSaves: {
-        width: "90%",
-        justifyContent: "center",
-        alignItems: "center"
-
-    },
-    containerList: {
+    containerListItem: {
         flexDirection: "column",
-        backgroundColor: "white",
-        justifyContent: "space-between",
+        justifyContent: "center",
         alignItems: "center",
-        margin: 5,
-        borderRadius: 6
+        backgroundColor: "white",
+        margin: 8,
+        width: 300,
+        height: 80,
+        borderRadius: 8
     },
     titleList: {
-        alignItems: "flex-start",
-        marginLeft: 16,
-        width: "60%"
+        marginTop: 8,
+        alignItems: "center",
+        marginBottom: 10
     },
     name: {
         fontSize: 16
@@ -348,12 +365,12 @@ const styles = StyleSheet.create({
     key: {
         color: "grey"
     },
-    list: {
+    itemButtons: {
         flexDirection: "row",
-        marginRight: 5
     },
     edit: {
-        marginRight: 10
+        marginHorizontal: 6,
+        marginBottom: 4
     }
 })
 

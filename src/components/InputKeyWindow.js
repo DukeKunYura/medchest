@@ -1,19 +1,27 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { nanoid } from 'nanoid'
 
-export default function BackupAdderWindow(props) {
+export default function InputKeyWindow(props) {
 
     const { setIsActive, handleExecutor } = props;
 
-    const [name, setName] = useState("");
+    const [key, setKey] = useState("");
 
-    const notification = "Внимание! Мы не несем ответственности за конфиденциальность данных при сохранении в облаке"
+    const notification = "Введите уникальный ключ резервной копии (20 символов)";
 
 
-    const handleAdder = (name) => {
+    const handleLoader = (key) => {
 
-        if (name !== "") { handleExecutor(name) }
+        if (key.length === 20) {
+
+            let item = { keyId: key, id: nanoid(5), name: "Ключ" }
+
+            console.log(item)
+
+            handleExecutor(item)
+        }
     };
 
     return (
@@ -24,12 +32,12 @@ export default function BackupAdderWindow(props) {
             <View style={styles.changer}>
                 <View style={[styles.window, styles.boxShadow]}>
                     <View style={styles.header}>
-                        <Text style={styles.headerText}>Создать</Text>
+                        <Text style={styles.headerText}>Загрузить</Text>
                         <TextInput
                             style={styles.input}
-                            onChangeText={setName}
-                            value={name}
-                            maxLength={10}
+                            onChangeText={setKey}
+                            value={key}
+                            maxLength={20}
                             textAlign='center'
                             placeholder='название' />
                         <Text style={styles.notification}>{notification}</Text>
@@ -38,7 +46,7 @@ export default function BackupAdderWindow(props) {
                         <View style={styles.buttonsMenu}>
                             <TouchableOpacity
                                 activeOpacity={0.5}
-                                onPress={() => { handleAdder(name) }}>
+                                onPress={() => { handleLoader(key) }}>
                                 <View style={styles.buttonAdd}>
                                     <MaterialCommunityIcons name="check-circle-outline" size={24} color="white" />
                                     <Text style={styles.buttonText}>Да</Text>
