@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addMedication, setStartMedications } from '../redux/masterSlice';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { createBackupDataFB, deleteBackupDataFB, updateBackupDataFB, getBackupDataFB } from '../firebase/firebase';
 import { addMedicationDB, deleteAllMedicationDB } from '../sqlite/db';
 import { addDBKey, getDBKeys, deleteDBKey } from '../sqlite/dbKeys';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import ConfirmationWindow from '../components/ConfirmationWindow';
+import ConfirmationClearWindow from '../components/ConfirmationClearWindow';
+import BackupAdderWindow from '../components/BackupAdderWindow';
 
 export default function BackupScreen({ navigation }) {
 
@@ -15,9 +18,24 @@ export default function BackupScreen({ navigation }) {
     const dispatch = useDispatch();
 
     const [listKeys, setListKeys] = useState([]);
-    const [isActiveCreateButton, setIsActiveCreateButton] = useState(state.isActiveBackupCreator);
+    const [backupItem, setBackupItem] = useState({});
+    const [isActiveBackupAdderWindow, setIsActiveBackupAdderWindow] = useState(false);
+    const [isActiveInputKeyWindow, setIsActiveInputKeyWindow] = useState(false);
+    const [isActiveConfirmClearWindow, setIsActiveConfirmClearWindow] = useState(false);
+    const [isActiveConfirmUpdateBackupWindow, setIsActiveConfirmUpdateBackupWindow] = useState(false);
+    const [isActiveConfirmLoadBackupWindow, setIsActiveConfirmLoadBackupWindow] = useState(false);
+    const [isActiveConfirmDeleteBackupWindow, setIsActiveConfirmDeleteBackupWindow] = useState(false);
 
-    const handleAddBackup = () => {
+
+    const handlePressAddBackup = () => {
+
+        if (listKeys.length > 2) { return };
+
+        setIsActiveBackupAdderWindow(true);
+
+    };
+
+    const handleAddBackup = (name) => {
 
         if (listKeys.length > 2) { return };
 
@@ -25,7 +43,7 @@ export default function BackupScreen({ navigation }) {
 
         const creatorBackup = createBackupDataFB(list);
 
-        creatorBackup.then(data => addDBKey({ name: "имя", keyId: data.name }));
+        creatorBackup.then(data => addDBKey({ name, keyId: data.name }));
 
         navigation.navigate('Home');
 
@@ -119,6 +137,53 @@ export default function BackupScreen({ navigation }) {
 
     return (
         <>
+            <Modal
+                visible={isActiveBackupAdderWindow}
+                animationType="none"
+                transparent={true}>
+                <BackupAdderWindow
+                    handleExecutor={handleAddBackup}
+                    setIsActive={setIsActiveBackupAdderWindow} />
+            </Modal>
+            <Modal
+                visible={isActiveConfirmClearWindow}
+                animationType="none"
+                transparent={true}>
+                <ConfirmationClearWindow
+                    text={"Удалить все медикаменты"}
+                    handleExecutor={handleDeleteAllMedications}
+                    setIsActive={setIsActiveConfirmClearWindow} />
+            </Modal>
+            <Modal
+                visible={isActiveConfirmUpdateBackupWindow}
+                animationType="none"
+                transparent={true}>
+                <ConfirmationWindow
+                    text={"Перезаписать backup: "}
+                    handleExecutor={handleUpdateBackup}
+                    item={backupItem}
+                    setIsActive={setIsActiveConfirmUpdateBackupWindow} />
+            </Modal>
+            <Modal
+                visible={isActiveConfirmLoadBackupWindow}
+                animationType="none"
+                transparent={true}>
+                <ConfirmationWindow
+                    text={"Загрузить backup: "}
+                    handleExecutor={handleLoadBackup}
+                    item={backupItem}
+                    setIsActive={setIsActiveConfirmLoadBackupWindow} />
+            </Modal>
+            <Modal
+                visible={isActiveConfirmDeleteBackupWindow}
+                animationType="none"
+                transparent={true}>
+                <ConfirmationWindow
+                    text={"Удалить backup: "}
+                    handleExecutor={handleDeleteBackup}
+                    item={backupItem}
+                    setIsActive={setIsActiveConfirmDeleteBackupWindow} />
+            </Modal>
             <View style={styles.header}>
                 <Text style={styles.textHeader}>Моя аптечка</Text>
             </View>
@@ -127,8 +192,8 @@ export default function BackupScreen({ navigation }) {
                 <View style={styles.buttons}>
                     <TouchableOpacity
                         activeOpacity={0.5}
-                        onPress={handleAddBackup}>
-                        <View style={styles.buttonAddBackup}>
+                        onPress={handlePressAddBackup}>
+                        <View style={listKeys.length > 2 ? styles.buttonAddBackupOff : styles.buttonAddBackup}>
                             <Ionicons name="md-cloud-done-outline" size={24} color="white" />
                             <Text style={styles.buttonText}>Сделать backup</Text>
                         </View>
@@ -143,52 +208,50 @@ export default function BackupScreen({ navigation }) {
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={0.5}
-                        onPress={handleDeleteAllMedications}>
+                        onPress={() => { setIsActiveConfirmClearWindow(true) }}>
                         <View style={styles.buttonLoadBackup}>
                             <MaterialCommunityIcons name="delete-alert-outline" size={22} color="#fb8ba2" />
                             <Text style={styles.buttonText}>Очистить приложение</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={[styles.containerList, styles.boxShadow]}>
-                    <View style={styles.titleList}>
-                        <Text style={styles.name}>Name</Text>
-                        <Text style={styles.key}>ключ</Text>
-                    </View>
-                    <View style={styles.list}>
-                        <TouchableOpacity
-                            activeOpacity={0.5}>
-                            <View style={styles.edit}>
-                                <Text>edit</Text>
+                <View style={styles.containerSaves}>
+                    <View><Text style={styles.textTitle}>Контрольные точки</Text></View>
+                    {listKeys.length !== 0 && listKeys.map(item =>
+                        <View key={item.keyId}>
+                            <View style={[styles.containerList, styles.boxShadow]} >
+                                <View style={styles.titleList}>
+                                    <Text style={styles.name}>{item.name}</Text>
+                                    <Text style={styles.key}>{item.keyId}</Text>
+                                </View>
+                                <View style={styles.list}>
+                                    <TouchableOpacity
+                                        activeOpacity={0.5}
+                                        onPress={() => { setBackupItem(item); setIsActiveConfirmUpdateBackupWindow(true) }}>
+                                        <View style={styles.edit}>
+                                            <Text>ПЕРЕЗАПИСАТЬ</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        activeOpacity={0.5}
+                                        onPress={() => { setBackupItem(item); setIsActiveConfirmLoadBackupWindow(true) }}>
+                                        <View style={styles.edit}>
+                                            <Text>ЗАГРУЗИТЬ</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        activeOpacity={0.5}
+                                        onPress={() => { setBackupItem(item); setIsActiveConfirmDeleteBackupWindow(true) }}>
+                                        <View style={styles.edit}>
+                                            <Text>УДАЛИТЬ</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            activeOpacity={0.5}>
-                            <View style={styles.edit}>
-                                <Text>edit</Text>
-                            </View>
-                        </TouchableOpacity>
+                        </View>
 
-                    </View>
+                    )}
                 </View>
-                {listKeys.length !== 0 && listKeys.map(item =>
-                    <View key={item.keyId}>
-                        <Text>{item.name}</Text>
-                        <Text>{item.keyId}</Text>
-                        <TouchableOpacity
-                            onPress={() => { handleDeleteBackup(item) }}>
-                            <View><Text>DEL</Text></View>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => { handleUpdateBackup(item) }}>
-                            <View><Text>UPDATE</Text></View>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => { handleLoadBackup(item) }}>
-                            <View><Text>LOAD</Text></View>
-                        </TouchableOpacity>
-                    </View>
-                )}
             </View>
         </>
 
@@ -232,6 +295,20 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         alignItems: "center"
     },
+    buttonAddBackupOff: {
+        flexDirection: "row",
+        height: 40,
+        width: 230,
+        backgroundColor: "#e0e0e0",
+        borderColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        justifyContent: "space-between",
+        paddingLeft: 20,
+        paddingRight: 20,
+        marginBottom: 20,
+        alignItems: "center"
+    },
     buttonLoadBackup: {
         flexDirection: "row",
         height: 40,
@@ -246,8 +323,14 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         alignItems: "center"
     },
+    containerSaves: {
+        width: "90%",
+        justifyContent: "center",
+        alignItems: "center"
+
+    },
     containerList: {
-        flexDirection: "row",
+        flexDirection: "column",
         backgroundColor: "white",
         justifyContent: "space-between",
         alignItems: "center",

@@ -2,25 +2,26 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function ConfirmationWindow(props) {
+export default function ConfirmationDeleteWindow(props) {
 
-    const { text, item, setIsActive, handleExecutor } = props;
+    const { text, handleDeleteMedication, id, name, setIsActiveConfirmationWindow } = props;
 
     return (
         <>
             <TouchableOpacity
                 style={styles.confirmationBack}
-                onPress={() => { setIsActive(false) }} />
+                onPress={() => { setIsActiveConfirmationWindow(false) }} />
             <View style={styles.changer}>
                 <View style={[styles.window, styles.boxShadow]}>
                     <View style={styles.header}>
-                        <Text style={styles.headerText}>{text}{item.name}</Text>
+                        <Text style={styles.headerText}>{text}</Text>
+                        <Text style={styles.headerText}>{name}</Text>
                     </View>
                     <View>
                         <View style={styles.buttonsMenu}>
                             <TouchableOpacity
                                 activeOpacity={0.5}
-                                onPress={() => { handleExecutor(item); setIsActive(false) }}>
+                                onPress={() => { handleDeleteMedication(id) }}>
                                 <View style={styles.buttonAdd}>
                                     <MaterialCommunityIcons name="check-circle-outline" size={24} color="white" />
                                     <Text style={styles.buttonText}>Да</Text>
@@ -28,7 +29,7 @@ export default function ConfirmationWindow(props) {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 activeOpacity={0.5}
-                                onPress={() => { setIsActive(false) }}>
+                                onPress={() => { setIsActiveConfirmationWindow(false) }}>
                                 <View style={styles.buttonCancel}>
                                     <MaterialCommunityIcons name="cancel" size={25} color="white" />
                                     <Text style={styles.buttonText}>Нет</Text>

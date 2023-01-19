@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function ConfirmationWindow(props) {
+export default function ConfirmationClearWindow(props) {
 
-    const { text, item, setIsActive, handleExecutor } = props;
+    const { text, setIsActive, handleExecutor } = props;
 
     return (
         <>
@@ -14,13 +14,13 @@ export default function ConfirmationWindow(props) {
             <View style={styles.changer}>
                 <View style={[styles.window, styles.boxShadow]}>
                     <View style={styles.header}>
-                        <Text style={styles.headerText}>{text}{item.name}</Text>
+                        <Text style={styles.headerText}>{text}</Text>
                     </View>
                     <View>
                         <View style={styles.buttonsMenu}>
                             <TouchableOpacity
                                 activeOpacity={0.5}
-                                onPress={() => { handleExecutor(item); setIsActive(false) }}>
+                                onPress={handleExecutor}>
                                 <View style={styles.buttonAdd}>
                                     <MaterialCommunityIcons name="check-circle-outline" size={24} color="white" />
                                     <Text style={styles.buttonText}>Да</Text>

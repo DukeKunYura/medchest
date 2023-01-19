@@ -1,10 +1,17 @@
-import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function ConfirmationWindow(props) {
+export default function BackupAdderWindow(props) {
 
-    const { text, item, setIsActive, handleExecutor } = props;
+    const { setIsActive, handleExecutor } = props;
+
+    const [name, setName] = useState("");
+
+    const handleAdder = (name) => {
+
+        if (name !== "") { handleExecutor(name) }
+    };
 
     return (
         <>
@@ -14,13 +21,18 @@ export default function ConfirmationWindow(props) {
             <View style={styles.changer}>
                 <View style={[styles.window, styles.boxShadow]}>
                     <View style={styles.header}>
-                        <Text style={styles.headerText}>{text}{item.name}</Text>
+                        <Text style={styles.headerText}>Создать</Text>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={setName}
+                            value={name}
+                        />
                     </View>
                     <View>
                         <View style={styles.buttonsMenu}>
                             <TouchableOpacity
                                 activeOpacity={0.5}
-                                onPress={() => { handleExecutor(item); setIsActive(false) }}>
+                                onPress={() => { handleAdder(name) }}>
                                 <View style={styles.buttonAdd}>
                                     <MaterialCommunityIcons name="check-circle-outline" size={24} color="white" />
                                     <Text style={styles.buttonText}>Да</Text>
@@ -78,6 +90,12 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 18,
         marginBottom: 5
+    },
+    input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
     },
     list: {
         justifyContent: "center",

@@ -6,7 +6,7 @@ import { deleteMedication } from '../redux/masterSlice';
 import { deleteMedicationDB } from '../sqlite/db';
 import Editor from '../components/Editor';
 import Header from '../components/Header';
-import ConfirmationWindow from '../components/ConfirmationWindow';
+import ConfirmationDeleteWindow from '../components/ConfirmationDeleteWindow';
 
 export default function ItemScreen({ route, navigation }) {
 
@@ -46,7 +46,7 @@ export default function ItemScreen({ route, navigation }) {
                     visible={isActiveConfirmationWindow}
                     animationType="none"
                     transparent={true}>
-                    <ConfirmationWindow
+                    <ConfirmationDeleteWindow
                         text={"Удалить: "}
                         handleDeleteMedication={handleDeleteMedication}
                         setIsActiveConfirmationWindow={setIsActiveConfirmationWindow}

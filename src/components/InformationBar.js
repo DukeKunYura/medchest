@@ -4,13 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setQuantitySpoiled } from '../redux/masterSlice';
 import moment from 'moment';
 
-export default function InformationBar({
-    navigation,
-    setIsActiveSortingChanger,
-    typeSorting,
-    setIsActiveFilterChanger,
-    typeFilter }) {
+export default function InformationBar(props) {
 
+    const {
+        navigation,
+        setIsActiveSortingChanger,
+        typeSorting,
+        setIsActiveFilterChanger,
+        typeFilter
+    } = props;
 
     const state = useSelector((state) => state.master);
 

@@ -7,7 +7,7 @@ import { deleteMedication } from '../redux/masterSlice';
 import { deleteMedicationDB } from '../sqlite/db';
 import moment from 'moment';
 import localization from 'moment/locale/ru';
-import ConfirmationWindow from '../components/ConfirmationWindow';
+import ConfirmationDeleteWindow from '../components/ConfirmationDeleteWindow';
 
 export default function Medication(props) {
 
@@ -47,7 +47,7 @@ export default function Medication(props) {
                 visible={isActiveConfirmationWindow}
                 animationType="none"
                 transparent={true}>
-                <ConfirmationWindow
+                <ConfirmationDeleteWindow
                     text={"Удалить: "}
                     handleDeleteMedication={handleDeleteMedication}
                     setIsActiveConfirmationWindow={setIsActiveConfirmationWindow}
