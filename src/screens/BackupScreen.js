@@ -80,37 +80,35 @@ export default function BackupScreen({ navigation }) {
 
         const insertBackup = (array) => {
 
-            let backup = array[0];
+            try {
+                let backup = array[0];
 
-            delete backup.id;
+                delete backup.id;
 
-            for (let key in backup) {
+                for (let key in backup) {
 
-                let medication = {
-                    name: backup[key].name,
-                    category: backup[key].category,
-                    expiration: backup[key].expiration,
-                    quantity: backup[key].quantity,
-                    freeze: backup[key].freeze,
-                    note: backup[key].note
-                };
+                    let medication = {
+                        name: backup[key].name,
+                        category: backup[key].category,
+                        expiration: backup[key].expiration,
+                        quantity: backup[key].quantity,
+                        freeze: backup[key].freeze,
+                        note: backup[key].note
+                    };
 
-                const item = addMedicationDB(medication);
+                    const item = addMedicationDB(medication);
 
-                item.then((data) => { dispatch(addMedication({ ...medication, id: data })) });
+                    item.then((data) => { dispatch(addMedication({ ...medication, id: data })) });
 
-            }
+                }
 
-            navigation.navigate('Home');
+                navigation.navigate('Home');
+
+            } catch (e) { console.log("Error load from FB -> ", e) }
+
         };
 
         getterBackup.then(data => insertBackup(data));
-
-    };
-
-    const handleLoadBackupWithKey = (key) => {
-
-        console.log(key)
 
     };
 
