@@ -61,6 +61,7 @@ export default function HomeScreen({ navigation }) {
     }, [state.medications, typeSorting, typeFilter]);
 
     useEffect(() => {
+
         getMedicationsDB().then(data => dispatch(setStartMedications(data)));
         console.log("get")
         getMedicationsDB().then(data => dispatch(setStartCategories(data)));

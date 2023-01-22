@@ -5,7 +5,8 @@ const initialState = {
     isActiveAdderWindow: false,
     categories: ["антибиотики", "анальгетики", "витамины", "спазмальгетики"],
     medications: [],
-    quantitySpoiled: 0
+    quantitySpoiled: 0,
+    isConnectionError: false
 };
 
 export const masterSlice = createSlice({
@@ -43,6 +44,9 @@ export const masterSlice = createSlice({
         },
         setQuantitySpoiled: (state, action) => {
             state.quantitySpoiled = action.payload
+        },
+        setIsConnectionError: (state, action) => {
+            state.isConnectionError = action.payload
         }
     }
 });
@@ -57,6 +61,7 @@ export const {
     setIsActiveAdderWindow,
     addCategory,
     deleteMedication,
-    setQuantitySpoiled } = masterSlice.actions;
+    setQuantitySpoiled,
+    setIsConnectionError } = masterSlice.actions;
 
 export default masterSlice.reducer

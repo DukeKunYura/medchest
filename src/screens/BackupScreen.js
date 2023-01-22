@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addMedication, setStartMedications } from '../redux/masterSlice';
+import { addMedication, setStartMedications, setIsConnectionError } from '../redux/masterSlice';
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { createBackupDataFB, deleteBackupDataFB, updateBackupDataFB, getBackupDataFB } from '../firebase/firebase';
 import { addMedicationDB, deleteAllMedicationDB } from '../sqlite/db';
@@ -11,6 +11,7 @@ import ConfirmationWindow from '../components/ConfirmationWindow';
 import ConfirmationClearWindow from '../components/ConfirmationClearWindow';
 import BackupAdderWindow from '../components/BackupAdderWindow';
 import InputKeyWindow from '../components/InputKeyWindow';
+import AlertWindow from '../components/AlertWindow';
 
 export default function BackupScreen({ navigation }) {
 
@@ -44,9 +45,15 @@ export default function BackupScreen({ navigation }) {
 
         const creatorBackup = createBackupDataFB(list);
 
-        creatorBackup.then(data => addDBKey({ name, keyId: data.name }));
+        creatorBackup.then(data => {
 
-        navigation.navigate('Home');
+            if (data.name !== undefined) {
+
+                addDBKey({ name, keyId: data.name }); navigation.navigate('Home');
+
+            } else { dispatch(setIsConnectionError(true)) }
+
+        });
 
     };
 
@@ -64,9 +71,15 @@ export default function BackupScreen({ navigation }) {
 
         const list = state.medications;
 
-        updateBackupDataFB(item.keyId, list);
+        const updateItem = updateBackupDataFB(item.keyId, list);
 
-        navigation.navigate('Home');
+        updateItem.then((data) => {
+
+            if (data[0].id === "error") { dispatch(setIsConnectionError(true)) }
+
+            else { navigation.navigate('Home'); }
+
+        })
 
     };
 
@@ -96,33 +109,47 @@ export default function BackupScreen({ navigation }) {
                         note: backup[key].note
                     };
 
-                    const item = addMedicationDB(medication);
+                    if (medication.name !== undefined) {
 
-                    item.then((data) => { dispatch(addMedication({ ...medication, id: data })) });
+                        const item = addMedicationDB(medication)
+
+                        item.then((data) => { dispatch(addMedication({ ...medication, id: data })) });
+
+                        navigation.navigate('Home');
+
+                    } else { dispatch(setIsConnectionError(true)) };
 
                 }
 
-                navigation.navigate('Home');
-
-            } catch (e) { console.log("Error load from FB -> ", e) }
+            } catch (e) { console.log("Error load from FB -> ", e); dispatch(setIsConnectionError(true)) }
 
         };
 
         getterBackup.then(data => insertBackup(data));
 
+
     };
 
     const handleDeleteBackup = (item) => {
 
-        deleteBackupDataFB(item.keyId);
+        const deleteBackup = deleteBackupDataFB(item.keyId);
 
-        deleteDBKey(item.id);
+        deleteBackup.then(data => {
 
-        let newArr = listKeys.filter(i => i.id !== item.id);
+            if (data === null) {
 
-        setListKeys(newArr);
+                deleteDBKey(item.id);
+
+                let newArr = listKeys.filter(i => i.id !== item.id);
+
+                setListKeys(newArr);
+
+            } else { dispatch(setIsConnectionError(true)) }
+        })
 
     };
+
+    const handleSetIsConnectionError = (value) => { dispatch(setIsConnectionError(value)) };
 
     const handleGet = () => {
 
@@ -190,6 +217,14 @@ export default function BackupScreen({ navigation }) {
                     handleExecutor={handleDeleteBackup}
                     item={backupItem}
                     setIsActive={setIsActiveConfirmDeleteBackupWindow} />
+            </Modal>
+            <Modal
+                visible={state.isConnectionError}
+                animationType="none"
+                transparent={true}>
+                <AlertWindow
+                    text={"Ошибка связи с сервером!"}
+                    setIsRepeatAlert={handleSetIsConnectionError} />
             </Modal>
             <View style={styles.header}>
                 <Text style={styles.textHeader}>Моя аптечка</Text>
