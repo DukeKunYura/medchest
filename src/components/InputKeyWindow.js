@@ -3,6 +3,9 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-nativ
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { nanoid } from 'nanoid'
 
+/**
+ * Компонент рендерит окно с интпутом для ввода ключа бекапа
+ */
 export default function InputKeyWindow(props) {
 
     const { setIsActive, handleExecutor } = props;
@@ -16,11 +19,9 @@ export default function InputKeyWindow(props) {
 
         if (key.length === 20) {
 
-            let item = { keyId: key, id: nanoid(5), name: "Ключ" }
+            let item = { keyId: key, id: nanoid(5), name: "Ключ" };
 
-            console.log(item)
-
-            handleExecutor(item)
+            handleExecutor(item);
         }
     };
 

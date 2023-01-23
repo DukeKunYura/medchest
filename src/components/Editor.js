@@ -9,6 +9,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CategoryChangerEditor from './CategoryChangerEditor';
 import FreezeChangerEditor from './FreezeChangeEditor';
 
+/**
+ * Компонент отвечает за редактирование медикамента, валидацию форм при редактировании
+ */
 export default function Editor({ item, navigation }) {
 
     const [isColorHighlight, setIsColorHighlight] = useState("");

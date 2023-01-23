@@ -2,6 +2,9 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+/**
+ * Компонент рендерит окно подтверждения очистки списка медикаментов
+ */
 export default function ConfirmationClearWindow(props) {
 
     const { text, setIsActive, handleExecutor } = props;

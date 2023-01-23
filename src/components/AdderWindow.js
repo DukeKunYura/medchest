@@ -10,6 +10,9 @@ import { Fontisto } from '@expo/vector-icons';
 import CategoryChanger from './CategoryChanger';
 import AlertWindow from './AlertWindow';
 
+/**
+ * Компонент отвечает за рендер меню добавления медикамента, валидацию форм
+ */
 export default function AdderWindow() {
 
     const dispatch = useDispatch();
@@ -118,7 +121,6 @@ export default function AdderWindow() {
                                 value={props.values.category}
                                 placeholder="новая"
                                 maxLength={16}
-                                autoCapitalize="none"
                                 textAlign='center'
                                 onChangeText={props.handleChange("category")}>
                             </TextInput>

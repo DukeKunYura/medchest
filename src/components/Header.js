@@ -2,6 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
+/**
+ * Компонент отвечает за рендер хедера на всех экранах
+ */
 export default function Header(props) {
 
     const { navigation } = props;

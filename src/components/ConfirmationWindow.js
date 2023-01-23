@@ -2,6 +2,9 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+/**
+ * Компонент рендерит окно подтверждения операции с бекапом
+ */
 export default function ConfirmationWindow(props) {
 
     const { text, item, setIsActive, handleExecutor } = props;

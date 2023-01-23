@@ -2,6 +2,9 @@ import React from 'react';
 import { View, ScrollView, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 
+/**
+ * Компонент отвечает за выбор категории при редактировании компонента
+ */
 export default function CategoryChangerEditor({ handleCategoryChanger, setIsActiveChangeCategory }) {
 
     const state = useSelector((state) => state.master);

@@ -4,7 +4,9 @@ import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { setSearch, setIsActiveAdderWindow } from '../redux/masterSlice';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-
+/**
+ * Компонент рендерит инпут для поиска или добавление медикамента
+ */
 export default function FinderAdder() {
 
     const dispatch = useDispatch();

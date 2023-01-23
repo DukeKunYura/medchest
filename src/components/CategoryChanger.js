@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet, TouchableOpacity, Text, Modal } from 'react-native';
 import { useSelector } from 'react-redux';
 
+/**
+ * Компонент отвечает за выбор категории при добавлении медикамента
+ */
 export default function CategoryChanger({ handleCategoryChanger, selectedCategory }) {
 
     const state = useSelector((state) => state.master);

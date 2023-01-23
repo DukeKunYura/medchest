@@ -13,6 +13,9 @@ import BackupAdderWindow from '../components/BackupAdderWindow';
 import InputKeyWindow from '../components/InputKeyWindow';
 import AlertWindow from '../components/AlertWindow';
 
+/**
+ * Компонент отвечает за операции с бекапами в firebase и рендер соответствующего экрана
+ */
 export default function BackupScreen({ navigation }) {
 
     const state = useSelector((state) => state.master);
@@ -127,7 +130,6 @@ export default function BackupScreen({ navigation }) {
 
         getterBackup.then(data => insertBackup(data));
 
-
     };
 
     const handleDeleteBackup = (item) => {
@@ -154,8 +156,6 @@ export default function BackupScreen({ navigation }) {
     const handleGet = () => {
 
         getDBKeys().then(data => setListKeys(data.reverse()));
-
-        getDBKeys().then(data => console.log(data));
 
     };
 

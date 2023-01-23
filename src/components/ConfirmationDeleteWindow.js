@@ -2,6 +2,9 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+/**
+ * Компонент рендерит окно подтверждения удаления медикамента
+ */
 export default function ConfirmationDeleteWindow(props) {
 
     const { text, handleDeleteMedication, id, name, setIsActiveConfirmationWindow } = props;

@@ -4,11 +4,14 @@ import { View, StyleSheet, TouchableOpacity, Text, ScrollView } from 'react-nati
 import 'react-native-get-random-values';
 import { nanoid } from 'nanoid'
 
+/**
+ * Компонент рендерит окно выбора фильра
+ */
 export default function FilterTypeChanger({ setIsActiveFilterChanger, setTypeFilter }) {
 
     const state = useSelector((state) => state.master);
 
-    const filterTypes = state.categories
+    const filterTypes = state.categories;
 
     return (
 

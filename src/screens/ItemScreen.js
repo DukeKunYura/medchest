@@ -8,6 +8,9 @@ import Editor from '../components/Editor';
 import Header from '../components/Header';
 import ConfirmationDeleteWindow from '../components/ConfirmationDeleteWindow';
 
+/**
+ * Компонент рендерит экран подробной информации о медикаменте
+ */
 export default function ItemScreen({ route, navigation }) {
 
     const { itemId, editing } = route.params;

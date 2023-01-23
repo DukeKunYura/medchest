@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
+/**
+ * Компонент отвечает за отображение и выбор типа сортировки
+ */
 export default function SortingTypeChanger({ setTypeSorting, setIsActiveSortingChanger }) {
 
     const sortingTypes = [{ title: "Новые", id: "1" }, { title: "Срок", id: "2" }, { title: "Алфавит", id: "3" }];

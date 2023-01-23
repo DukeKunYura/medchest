@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
+/**
+ * Компонент отвечает за выбор типа храниения медикамента при редактировании
+ */
 export default function FreezeChangeEditor({ handleFreezeChanger, setIsActiveChangeFreeze }) {
 
-
     const handlerRowChooser = (freeze) => { handleFreezeChanger(freeze) };
-
 
     return (
         <>

@@ -2,6 +2,9 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+/**
+ * Компонент рендерит окно предупреждения с текстом из props
+ */
 export default function AlertWindow({ text, setIsRepeatAlert }) {
     return (
         <>

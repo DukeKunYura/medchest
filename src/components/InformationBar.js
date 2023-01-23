@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setQuantitySpoiled } from '../redux/masterSlice';
 import moment from 'moment';
 
+/**
+ * Компонент рендерит меню с выбором фильтров и сортировок в хедере
+ */
 export default function InformationBar(props) {
 
     const {

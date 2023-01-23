@@ -8,6 +8,9 @@ import { NavigationContainer } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 
+/**
+ * Компонент отвечет за навигацию по экранам
+ */
 export default function Navigation() {
     return (
         <NavigationContainer>

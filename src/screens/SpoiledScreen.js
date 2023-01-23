@@ -5,7 +5,9 @@ import { FlatList, Text, View, StyleSheet } from 'react-native';
 import Medication from '../components/Medication';
 import Header from '../components/Header';
 
-
+/**
+ * Компонент отвечает за экран со списком просроченных медикаментов
+ */
 export default function SpoiledScreen({ navigation }) {
 
     const state = useSelector((state) => state.master);

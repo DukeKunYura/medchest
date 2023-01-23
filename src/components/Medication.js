@@ -9,6 +9,9 @@ import moment from 'moment';
 import localization from 'moment/locale/ru';
 import ConfirmationDeleteWindow from '../components/ConfirmationDeleteWindow';
 
+/**
+ * Компонет рендерит элементы для списка медикаментов
+ */
 export default function Medication(props) {
 
     const { item, navigation } = props;

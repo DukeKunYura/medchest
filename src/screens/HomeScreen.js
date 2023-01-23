@@ -12,6 +12,9 @@ import InformationBar from '../components/InformationBar';
 import SortingTypeChanger from '../components/SortingTypeChanger';
 import FilterTypeChanger from '../components/FilterTypeChanger';
 
+/**
+ * Компонент отвечает за отображение основного экрана и рендер списка медикаментов
+ */
 export default function HomeScreen({ navigation }) {
 
     const state = useSelector((state) => state.master);

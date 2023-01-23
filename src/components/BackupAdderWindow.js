@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+/**
+ * Компонент рендерит окно с инпутом для ввода имени бекапа
+ */
 export default function BackupAdderWindow(props) {
 
     const { setIsActive, handleExecutor } = props;
 
     const [name, setName] = useState("");
 
-    const notification = "Внимание! Мы не несем ответственности за конфиденциальность данных при сохранении в облаке"
-
+    const notification = "Внимание! Мы не несем ответственности за конфиденциальность данных при сохранении в облаке";
 
     const handleAdder = (name) => {
 
