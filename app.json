@@ -18,8 +18,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dukekunyura.medchest-rn-app"
     },
-    "android": {}
+    "android": {
+      "package": "com.dukekunyura.medchest_rn_app",
+      "versionCode": 1,
+      "permissions": [
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    }
   }
 }
