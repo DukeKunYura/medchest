@@ -1,14 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import Main from './src/components/Main';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 import * as SplashScreen from 'expo-splash-screen';
 import { bootstrap } from './src/bootstrap';
-
-// подключенные зависимости
-// $ npm i react-redux @reduxjs/toolkit
-// $ npm i --save-dev @types/react-redux
 
 export default function App() {
 
@@ -32,7 +28,7 @@ export default function App() {
     }, [isReady]);
 
     if (!isReady) {
-        return <View style={styles.container}><Text>лоадинг...</Text></View>;
+        return <View style={styles.container}><Image style={styles.img} source={require('./src/img/splashMedChest.png')} /></View>;
     }
 
     return (
@@ -41,6 +37,7 @@ export default function App() {
         </Provider>
     );
 }
+
 // подключенные зависимости
 // $ npm i react-redux @reduxjs/toolkit
 // $ npm i --save-dev @types/react-redux
@@ -53,4 +50,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
+    img: {
+        width: "100%",
+        height: "100%"
+    }
 })

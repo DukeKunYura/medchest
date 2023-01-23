@@ -52,7 +52,6 @@ export default function AdderWindow() {
 
         if (!state.categories.includes(medication.category)) { dispatch(addCategory(medication.category)) }
 
-
     };
 
     const handleSetFreeze = () => {
