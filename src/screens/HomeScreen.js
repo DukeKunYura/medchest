@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, Modal, View, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../components/Header';
 import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
@@ -72,15 +73,14 @@ export default function HomeScreen({ navigation }) {
     }, []);
 
     return (
-        <View style={styles.home}>
-            <Header navigation={navigation}>
-                <InformationBar
-                    navigation={navigation}
-                    setIsActiveSortingChanger={setIsActiveSortingChanger}
-                    setIsActiveFilterChanger={setIsActiveFilterChanger}
-                    typeSorting={typeSorting}
-                    typeFilter={typeFilter} />
-            </Header>
+        <SafeAreaView style={styles.home}>
+            <Header navigation={navigation} />
+            <InformationBar
+                navigation={navigation}
+                setIsActiveSortingChanger={setIsActiveSortingChanger}
+                setIsActiveFilterChanger={setIsActiveFilterChanger}
+                typeSorting={typeSorting}
+                typeFilter={typeFilter} />
             {medications &&
                 <View style={styles.page}>
                     <FlatList
@@ -111,17 +111,17 @@ export default function HomeScreen({ navigation }) {
                     setTypeFilter={setTypeFilter}
                     setIsActiveFilterChanger={setIsActiveFilterChanger} />
             </Modal>
-        </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     home: {
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: "#9CCC65",
     },
     page: {
-        flex: 1
-
+        flex: 1,
+        backgroundColor: "white"
     }
 })

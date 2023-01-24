@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
         height: 40,
         width: 120,
         marginRight: 20,
-        backgroundColor: "#AED581",
+        backgroundColor: "#9CCC65",
         borderColor: "white",
         borderWidth: 1,
         borderRadius: 10,

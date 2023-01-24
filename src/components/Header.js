@@ -10,7 +10,7 @@ export default function Header(props) {
     const { navigation } = props;
 
     return (
-        <>
+        <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.text}>Моя аптечка</Text>
             </View>
@@ -20,33 +20,32 @@ export default function Header(props) {
                 style={styles.backup}>
                 <MaterialIcons name="cloud-queue" size={24} color="white" />
             </TouchableOpacity>
-            {props.children}
-        </>
+        </View>
 
     )
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flexDirection: "row"
+    },
     header: {
         position: "relative",
         width: "100%",
-        height: 100,
+        height: 70,
         backgroundColor: "#9CCC65",
-        justifyContent: "flex-end",
         alignItems: "center",
         zIndex: 1
     },
     text: {
         color: "#F1F8E9",
         fontSize: 26,
-        marginBottom: 10
+        marginTop: 20,
     },
     backup: {
         position: "absolute",
-        marginTop: 65,
         marginLeft: 20,
+        marginTop: 28,
         zIndex: 2
-
-
     }
 })

@@ -4,10 +4,11 @@ import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { editMedication } from '../redux/masterSlice';
 import { updateMedicationDB } from '../sqlite/db';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Modal, ScrollView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CategoryChangerEditor from './CategoryChangerEditor';
 import FreezeChangerEditor from './FreezeChangeEditor';
+import NoteEditor from './NoteEditor';
 
 /**
  * Компонент отвечает за редактирование медикамента, валидацию форм при редактировании
@@ -17,8 +18,10 @@ export default function Editor({ item, navigation }) {
     const [isColorHighlight, setIsColorHighlight] = useState("");
     const [selectedCategory, setSelectedCategory] = useState(item.category);
     const [selectedFreeze, setSelectedFreeze] = useState(item.freeze);
+    const [note, setNote] = useState(item.note)
     const [isActiveChangeCategory, setIsActiveChangeCategory] = useState(false);
     const [isActiveChangeFreeze, setIsActiveChangeFreeze] = useState(false);
+    const [isActiveNoteEditor, setIsActiveNoteEditor] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -59,7 +62,7 @@ export default function Editor({ item, navigation }) {
             freeze: selectedFreeze,
             category: values.category,
             quantity: values.quantity,
-            note: values.note
+            note
         };
         const data = { id, allValues };
         navigation.goBack();
@@ -99,6 +102,15 @@ export default function Editor({ item, navigation }) {
                     handleFreezeChanger={handleFreezeChanger}
                     setIsActiveChangeFreeze={setIsActiveChangeFreeze} />
             </Modal>
+            <Modal
+                visible={isActiveNoteEditor}
+                animationType="none"
+                transparent={true}>
+                <NoteEditor
+                    note={note}
+                    setNote={setNote}
+                    setIsActiveNoteEditor={setIsActiveNoteEditor} />
+            </Modal>
             <Formik
                 validationSchema={formValidationSchema}
                 initialValues={{
@@ -108,8 +120,7 @@ export default function Editor({ item, navigation }) {
                     day: item.expiration.substring(0, 2),
                     month: item.expiration.substring(3, 5),
                     year: item.expiration.substring(6, 10),
-                    freeze: selectedFreeze,
-                    note: item.note
+                    freeze: selectedFreeze
                 }}
                 onSubmit={(values) => { handleEditMedication(item.id, values) }}>
                 {(props) => (
@@ -209,15 +220,12 @@ export default function Editor({ item, navigation }) {
                         </View>
                         <View style={styles.fieldName}>
                             <Text style={styles.fieldText}>примечание:</Text>
-                            <TextInput
-                                multiline={true}
-                                numberOfLines={4}
-                                maxHeight={20}
-                                textAlignVertical={"top"}
-                                value={props.values.note}
-                                onChangeText={props.handleChange("note")}
-                                style={styles.note}>
-                            </TextInput>
+                            <TouchableOpacity
+                                onPress={() => { setIsActiveNoteEditor(true) }}>
+                                <ScrollView style={styles.note}>
+                                    <Text style={styles.dataText}>{note}</Text>
+                                </ScrollView>
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.buttonsMenu}>
                             <TouchableOpacity
@@ -327,11 +335,10 @@ const styles = StyleSheet.create({
     note: {
         margin: 10,
         marginLeft: -10,
-        backgroundColor: "#e8e8e8",
-        borderWidth: 0.5,
+        backgroundColor: "#f2f2f2",
         borderRadius: 10,
-        borderColor: "grey",
-        minHeight: 80,
+        minHeight: 40,
+        maxHeight: 100,
         paddingHorizontal: 5
     },
     buttonsMenu: {
@@ -345,7 +352,7 @@ const styles = StyleSheet.create({
         height: 40,
         width: 120,
         marginRight: 20,
-        backgroundColor: "#AED581",
+        backgroundColor: "#9CCC65",
         borderColor: "white",
         borderWidth: 1,
         borderRadius: 10,

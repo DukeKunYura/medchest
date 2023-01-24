@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Modal, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteMedication } from '../redux/masterSlice';
@@ -41,9 +42,10 @@ export default function ItemScreen({ route, navigation }) {
     }, [state.medications]);
 
     return (
-        <>
+        <SafeAreaView style={styles.home}>
             <Header navigation={navigation} />
-            <KeyboardAvoidingView
+            <View
+                style={styles.page}
                 behavior="position">
                 <Modal
                     visible={isActiveConfirmationWindow}
@@ -89,7 +91,6 @@ export default function ItemScreen({ route, navigation }) {
                         <ScrollView style={styles.note}>
                             <Text style={styles.dataText}>{item.note}</Text>
                         </ScrollView>
-
                     </View>
                     <View style={styles.buttonsMenu}>
                         <TouchableOpacity
@@ -120,13 +121,21 @@ export default function ItemScreen({ route, navigation }) {
                 </View>}
                 {isEditing && <Editor item={item} navigation={navigation} />}
 
-            </KeyboardAvoidingView>
-        </>
+            </View>
+        </SafeAreaView>
 
     );
 }
 
 const styles = StyleSheet.create({
+    home: {
+        flex: 1,
+        backgroundColor: "#9CCC65",
+    },
+    page: {
+        flex: 1,
+        backgroundColor: "white"
+    },
     title: {
         width: "100%",
         height: 60,
@@ -181,7 +190,7 @@ const styles = StyleSheet.create({
         height: 40,
         width: 120,
         marginRight: 10,
-        backgroundColor: "#AED581",
+        backgroundColor: "#9CCC65",
         borderColor: "white",
         borderWidth: 1,
         borderRadius: 10,

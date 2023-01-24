@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#9BAF64"
+      "backgroundColor": "#9CCC65"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -27,6 +27,11 @@
       "permissions": [
         "WRITE_EXTERNAL_STORAGE"
       ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d4e1d93c-3f8b-4bd9-8504-add87c95211e"
+      }
     }
   }
 }

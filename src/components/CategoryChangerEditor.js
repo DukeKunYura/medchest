@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         width: "100%"
     },
     window: {
-        height: 300,
+        height: 320,
         width: "80%",
         backgroundColor: "#d5edb9",
         borderWidth: 1,

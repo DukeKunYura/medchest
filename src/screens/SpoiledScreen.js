@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { FlatList, Text, View, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Medication from '../components/Medication';
 import Header from '../components/Header';
 
@@ -16,12 +17,14 @@ export default function SpoiledScreen({ navigation }) {
         (Number(moment(item.expiration, "DD,MM,YYYY").format("x")) - Number(Date.now().toString())) < 1));
 
     useEffect(() => {
+
         setSpoiledMedications(state.medications.filter(item =>
             (Number(moment(item.expiration, "DD,MM,YYYY").format("x")) - Number(Date.now().toString())) < 1))
+
     }, [state.medications]);
 
     return (
-        <View style={styles.home}>
+        <SafeAreaView style={styles.home}>
             <Header navigation={navigation} />
             <View style={styles.title}>
                 <Text style={styles.textTitle}>Истек срок годности: {state.quantitySpoiled}</Text>
@@ -33,18 +36,18 @@ export default function SpoiledScreen({ navigation }) {
                         data={spoiledMedications}
                         renderItem={({ item }) => (<Medication navigation={navigation} item={item} key={item.key} />)}></FlatList>
                 </View>}
-        </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     home: {
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: "#9CCC65"
     },
     page: {
-        flex: 1
-
+        flex: 1,
+        backgroundColor: "white"
     },
     title: {
         flexDirection: "row",

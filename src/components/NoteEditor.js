@@ -1,30 +1,40 @@
-import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 /**
- * Компонент рендерит окно подтверждения удаления медикамента
+ * Компонент рендерит окно с инпутом для ввода заметки
  */
-export default function ConfirmationDeleteWindow(props) {
+export default function NoteEditor(props) {
 
-    const { text, handleDeleteMedication, id, name, setIsActiveConfirmationWindow } = props;
+    const { note, setNote, setIsActiveNoteEditor } = props;
+
+    const [noteValue, setNoteValue] = useState(note);
 
     return (
         <>
             <TouchableOpacity
                 style={styles.confirmationBack}
-                onPress={() => { setIsActiveConfirmationWindow(false) }} />
+                onPress={() => { setIsActiveNoteEditor(false) }} />
             <View style={styles.changer}>
                 <View style={[styles.window, styles.boxShadow]}>
                     <View style={styles.header}>
-                        <Text style={styles.headerText}>{text}</Text>
-                        <Text style={styles.headerText}>{name}</Text>
+                        <Text style={styles.headerText}>Редактировать</Text>
+                        <TextInput
+                            multiline={true}
+                            numberOfLines={4}
+                            textAlignVertical={"top"}
+                            style={styles.input}
+                            onChangeText={setNoteValue}
+                            value={noteValue}
+                            maxLength={200}
+                            placeholder={note} />
                     </View>
                     <View>
                         <View style={styles.buttonsMenu}>
                             <TouchableOpacity
                                 activeOpacity={0.5}
-                                onPress={() => { handleDeleteMedication(id) }}>
+                                onPress={() => { setNote(noteValue); setIsActiveNoteEditor(false) }}>
                                 <View style={styles.buttonAdd}>
                                     <MaterialCommunityIcons name="check-circle-outline" size={24} color="white" />
                                     <Text style={styles.buttonText}>Да</Text>
@@ -32,7 +42,7 @@ export default function ConfirmationDeleteWindow(props) {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 activeOpacity={0.5}
-                                onPress={() => { setIsActiveConfirmationWindow(false) }}>
+                                onPress={() => { setIsActiveNoteEditor(false) }}>
                                 <View style={styles.buttonCancel}>
                                     <MaterialCommunityIcons name="cancel" size={25} color="white" />
                                     <Text style={styles.buttonText}>Нет</Text>
@@ -61,7 +71,7 @@ const styles = StyleSheet.create({
         width: "100%"
     },
     window: {
-        height: 130,
+        height: 240,
         width: "80%",
         backgroundColor: "#d5edb9",
         borderWidth: 1,
@@ -77,11 +87,22 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        marginBottom: 10
+        marginBottom: 20
     },
     headerText: {
         fontSize: 18,
-        marginBottom: 5
+        margin: 5
+    },
+    input: {
+        height: 120,
+        backgroundColor: "#F1F8E9",
+        borderWidth: 1,
+        borderRadius: 10,
+        width: "90%",
+        borderColor: "grey",
+        padding: 10,
+        alignItems: "center",
+        fontSize: 16
     },
     list: {
         justifyContent: "center",

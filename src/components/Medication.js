@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     },
     expirationLong: {
         fontSize: 12,
-        color: "#AED581",
+        color: "#9CCC65",
         margin: 3
     },
     expirationMonth: {

@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     search: "",
     isActiveAdderWindow: false,
-    categories: ["антибиотики", "анальгетики", "витамины", "спазмальгетики"],
+    categories: ["Антибиотик", "Анальгетик", "Витамины", "Спазмальгетик"],
     medications: [],
     quantitySpoiled: 0,
     isConnectionError: false
@@ -18,7 +18,9 @@ export const masterSlice = createSlice({
         },
         setStartCategories: (state, action) => {
             let items = action.payload.map(item => item.category);
-            let uniqueItems = [...new Set(items)]
+            items = [...state.categories, ...items];
+            let uniqueItems = [...new Set(items)];
+            uniqueItems.sort((a, b) => a.localeCompare(b));
             state.categories = uniqueItems;
         },
         setSearch: (state, action) => {

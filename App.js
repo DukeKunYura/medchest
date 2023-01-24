@@ -38,15 +38,10 @@ export default function App() {
     );
 }
 
-// подключенные зависимости
-// $ npm i react-redux @reduxjs/toolkit
-// $ npm i --save-dev @types/react-redux
-
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#AED581",
+        backgroundColor: "#9CCC65",
         justifyContent: "center",
         alignItems: "center",
     },
