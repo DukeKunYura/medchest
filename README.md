@@ -6,6 +6,6 @@ Backups are saved in the firebase cloud storage.
 
 The application has options: realtime search, filtering by category, sorting.
 
-![screenshot-1](https://github.com/DukeKunYura/medchest/blob/main/src/screenshot-1/1.jpg)
+![screenshot-1](https://github.com/DukeKunYura/medchest/blob/main/src/screenshots/1.jpg)
 
-![screenshot-2](https://github.com/DukeKunYura/medchest/blob/main/src/screenshot-2/2.jpg)
+![screenshot-2](https://github.com/DukeKunYura/medchest/blob/main/src/screenshots/2.jpg)
